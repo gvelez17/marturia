@@ -1,12 +1,15 @@
 import React from 'react';
+import './Home.scss';
 import MainLayout from '../components/MainLayout';
 
-const NotFound = () => {
+function Home() {
   return (
     <MainLayout>
-      <div className="not-found page">Page Not Found</div>
+      <div className="home page">
+        Home
+      </div>
     </MainLayout>
   );
-};
+}
 
-export default NotFound;
+export default Home;

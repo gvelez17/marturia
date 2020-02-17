@@ -8,15 +8,36 @@ import {
   Route
 } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import './index.css';
-import App from './components/App';
+import './styles/normalize.css';
+import './styles/global.css';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
+
+import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Victims from './pages/Victims';
+import Submit from './pages/Submit';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
 const Routes = () => (
+  <Router>
+    <Switch>
+      <Route exact path='/'>
+        <Home />
+      </Route>
+      <Route path='/victims'>
+        <Victims />
+      </Route>
+      <Route path='/submit'>
+        <Submit />
+      </Route>
+      <Route component={NotFound} />        
+    </Switch>
+  </Router>
+);
+
+/*
   <Router>
     <Switch>
       <Route exact path='/'>
@@ -25,7 +46,25 @@ const Routes = () => (
       <Route component={NotFound} />
     </Switch>
   </Router>
-);
+
+
+        <Route path={['/', 'victims', 'submit', 'about']}>
+        <MainLayout>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/victims'>
+            <Victims />
+          </Route>
+          <Route path='/submit'>
+            <Submit />
+          </Route>
+        </MainLayout>
+      </Route>
+      <MainLayout>
+        <Route component={NotFound} />
+      </MainLayout>
+*/
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,12 +1,12 @@
 import React from 'react';
 import MainLayout from '../components/MainLayout';
 
-const NotFound = () => {
+const Submit = () => {
   return (
     <MainLayout>
-      <div className="not-found page">Page Not Found</div>
+      <div className="submit page">Submit Victim Page</div>
     </MainLayout>
   );
 };
 
-export default NotFound;
+export default Submit;
