@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './styles/normalize.css';
-import './styles/global.css';
+import './styles/global.scss';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 
@@ -36,35 +36,6 @@ const Routes = () => (
     </Switch>
   </Router>
 );
-
-/*
-  <Router>
-    <Switch>
-      <Route exact path='/'>
-        <App />
-      </Route>
-      <Route component={NotFound} />
-    </Switch>
-  </Router>
-
-
-        <Route path={['/', 'victims', 'submit', 'about']}>
-        <MainLayout>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Route path='/victims'>
-            <Victims />
-          </Route>
-          <Route path='/submit'>
-            <Submit />
-          </Route>
-        </MainLayout>
-      </Route>
-      <MainLayout>
-        <Route component={NotFound} />
-      </MainLayout>
-*/
 
 ReactDOM.render(
   <Provider store={store}>
