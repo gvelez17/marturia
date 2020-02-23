@@ -1,3 +1,5 @@
+@import '../styles/variables';
+
 .header-container {
   background: #25646a;
 
@@ -14,7 +16,7 @@
     .logo {
       flex: 1 0 200px;
       max-width: 200px;
-      color: #fafafa;
+      color: $white-1;
       background: rgb(0, 0, 0); // fallback
       background: rgba(0, 0, 0, 0.55);
       font-size: 1.2em;
@@ -51,7 +53,7 @@
         font-weight: bold;
         text-decoration: none;
         text-transform: uppercase;
-        color: #fafafa;
+        color: $white-1;
         border-radius: 4px;
 
         &.active {
