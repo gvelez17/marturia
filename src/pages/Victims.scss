@@ -1,15 +1,10 @@
 @import '../styles/variables';
 
 .victims.page {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 40px 0;
-
   .wrapper {
-    width: 85%;
-    margin: 0 auto;
+    width: 90%;
 
-    @media screen and (max-width: 924px) {
+    @media (max-width: $break-lg) {
       width: 80%;
     }
   }
@@ -24,7 +19,7 @@
     align-items: center;
     justify-content: space-between;
 
-    @media screen and (max-width: 924px) {
+    @media (max-width: $break-lg) {
       flex-wrap: nowrap;
       flex-direction: column;
     }
@@ -34,13 +29,17 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      width: 46%;
+      width: 48%;
       background: white;
       border-radius: 4px;
       border: 1px solid darkgray;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       margin-bottom: 20px;
       padding: 10px;
+
+      @media (max-width: $break-lg) {
+        justify-content: center;
+      }
 
       .col:first-child {
         margin-right: 20px;
@@ -54,13 +53,23 @@
 
       .col:nth-child(2) {
         flex: 1;
+
+        @media (max-width: $break-lg) {
+          flex: initial;
+          width: 200px;
+        }
+
+        @media (max-width: $break-sm) {
+          flex: 1;
+          width: initial;
+        }
       }
 
-      @media screen and (max-width: 924px) {
+      @media (max-width: $break-lg) {
         width: 100%;
       }
 
-      @media screen and (max-width: 440px) {
+      @media (max-width: $break-sm) {
         flex-direction: column;
       }
     }
@@ -72,7 +81,7 @@
     .more-btn {
       margin-top: 10px;
 
-      @media screen and (max-width: 440px) {
+      @media (max-width: $break-sm) {
         text-align: right;
       }
 

@@ -9,9 +9,9 @@
     align-items: center;
     justify-content: center;
     width: 90%;
-    max-width: 1000px;
+    max-width: $max-page-width;
     margin: 0 auto;
-    letter-spacing: 0.11em;
+    letter-spacing: 0.08rem;
   
     .logo {
       flex: 1 0 200px;
@@ -42,7 +42,7 @@
   ul {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;;
 
     li {
       font-size: 0.95em;
@@ -62,12 +62,13 @@
         }
       }
 
-      .search {
-        border-radius: 4px;
-        border: none;
-        padding: 10px;
+      form {
         margin-left: 30px;
-        width: 165px;
+        
+        .search {
+          border: none;
+          width: 165px;
+        }
       }
     }
   }

@@ -1,24 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
-import blankProfile from '../images/blank-profile-150.png';
 import './Victims.scss';
 
 const Victims = () => {
+  useEffect(() => {
+    document.title = 'Victims List - Testimony Database';
+  }, []);
+
   return (
     <MainLayout>
       <div className="victims page">
         <div className="wrapper">
           <ul className="list">
-            {mockData.map(item => (
+            {mockData.map((item, index) => (
               <li key={item.id}>
                 <div className="col">
-                  <img src={blankProfile} alt="victim" />
+                  <img
+                    src={`https://i.pravatar.cc/160?img=${idsOfImages[index]}`}
+                    alt="victim"
+                  />
                 </div>
                 <div className="col">
                   <div className="name"><span>Name:</span> {item.name}</div>
-                  <div className="date-of-birth"><span>Birth date:</span> {item.dateOfBirth}</div>
-                  <div className="last-seen-place"><span>Place last seen: </span> {item.lastSeenPlace}</div>
-                  <div className="current-status"><span>Current status: </span> {item.currentStatus}</div>
+                  <div className="age"><span>Age:</span> {item.age}</div>
+                  <div className="location"><span>Location: </span> {item.location}</div>
+                  <div className="status"><span>Status: </span> {item.status}</div>
                   <div className="more-btn">
                     <a href="/">More</a>
                   </div>
@@ -32,48 +38,49 @@ const Victims = () => {
   );
 };
 
+const idsOfImages = [68, 47, 63, 51, 35, 17];
 const mockData = [
   {
     id: 1,
     name: "John Doe",
-    dateOfBirth: "January 20, 1980",
-    lastSeenPlace: "Russia",
-    currentStatus: "Unknown"
+    age: "42",
+    location: "Baghdad, Iraq",
+    status: "Unknown"
   },
   {
     id: 2,
     name: "Sara Smith",
-    dateOfBirth: "December 11, 1950",
-    lastSeenPlace: "China",
-    currentStatus: "Imprisoned"
+    age: "50 - 55",
+    location: "China",
+    status: "Imprisoned"
   },
   {
     id: 3,
     name: "Mary Doe",
-    dateOfBirth: "October 3, 1967",
-    lastSeenPlace: "Spain",
-    currentStatus: "Deceased"
+    age: "20",
+    location: "Madrid, Spain",
+    status: "Deceased"
   },
   {
     id: 4,
     name: "Darrel Poe",
-    dateOfBirth: "January 20, 1980",
-    lastSeenPlace: "Russia",
-    currentStatus: "Unknown"
+    age: "35 - 40",
+    location: "Colombia",
+    status: "Unknown"
   },
   {
     id: 5,
     name: "Elizabeth Branch",
-    dateOfBirth: "December 11, 1950",
-    lastSeenPlace: "China",
-    currentStatus: "Imprisoned"
+    age: "65",
+    location: "Portugal",
+    status: "Imprisoned"
   },
   {
     id: 6,
     name: "Phil Pace",
-    dateOfBirth: "October 3, 1967",
-    lastSeenPlace: "Spain",
-    currentStatus: "Deceased"
+    age: "77 - 83",
+    location: "Spain",
+    status: "Deceased"
   }
 ];
 

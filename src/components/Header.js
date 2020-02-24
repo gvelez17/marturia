@@ -9,17 +9,23 @@ const Header = () => {
         <div className="logo"><p>Testimony Database</p></div>
         <nav className="main-navigation">
           <ul>
-            <li><NavLink to="/victims"  activeClassName="active">Victims</NavLink></li>
-            <li><NavLink to="/submit"  activeClassName="active">Submit</NavLink></li>
+            <li>
+              <NavLink to="/victims" activeClassName="active">Victims</NavLink>
+            </li>
+            <li>
+              <NavLink to="/submit" activeClassName="active">Submit</NavLink>
+            </li>
             <li>
               <NavLink exact to="/" activeClassName="active">About</NavLink>
             </li>
             <li>
-              <input 
-                className="search" 
-                type="search" 
-                placeholder="Search..." 
-              />
+              <form>
+                <input 
+                  className="search" 
+                  type="search" 
+                  placeholder="Search..." 
+                />
+              </form>
             </li>
           </ul>
         </nav>

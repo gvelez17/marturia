@@ -27,3 +27,75 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+form {
+  section {
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 1.3rem;
+      background: rgb(0, 0, 0);
+      background: rgba(0, 0, 0, 0.1);
+      color: rgb(20, 20, 20);
+      display: inline-block;
+      padding: 10px 15px;
+      position: relative;
+      left: -15px;
+    }
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 18px;
+
+    &:nth-last-child(2) {
+      margin-bottom: 26px;
+    }
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #171717;
+  }
+
+  input, textarea {
+    border-radius: 2px;
+    border: 1px solid darkgray;
+    padding: 10px 15px;
+    width: 100%;
+  }
+
+  textarea {
+    height: 120px;
+  }
+}
+
+.btn {
+  background: $primary-green;
+  border: none;
+  color: $gray-1;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  cursor: pointer;
+
+  &:hover {
+    background: $light-green;
+  }
+}
+
+.page {
+  padding: 40px 0;
+  max-width: $max-page-width;
+  margin: 0 auto;
+
+  .wrapper {
+    width: 85%;
+    margin: 0 auto;
+  }
+}
