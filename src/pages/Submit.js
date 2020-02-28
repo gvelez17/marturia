@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
-import './Submit.scss';
+import '../styles/Submit.scss';
 
 const Submit = () => {
   const nameRef = useRef();

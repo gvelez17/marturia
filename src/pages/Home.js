@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Home.scss';
+import '../styles/Home.scss';
 import MainLayout from '../components/MainLayout';
 
 function Home() {
