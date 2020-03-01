@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
-import '../styles/Victims.scss';
+import './Victims.scss';
 
 const Victims = () => {
   useEffect(() => {
