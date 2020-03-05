@@ -11,7 +11,6 @@ const Victims = () => {
     <MainLayout>
       <div className="victims page">
         <div className="wrapper">
-
         <div className="searchSelect">
          <form>
                 <input 
@@ -19,7 +18,7 @@ const Victims = () => {
                   type="search" 
                   placeholder="Search..." 
                 />
-              </form>
+         </form>
               <div className="selectSubmit">
                   <select id="countries">
                     <option value="">Select country</option>
@@ -30,9 +29,7 @@ const Victims = () => {
                   </select>
                   <button type="submit" className="btn">Submit</button>
               </div>
-             
           </div>    
-
           <ul className="list">
             {mockData.map((item, index) => (
               <li key={item.id}>

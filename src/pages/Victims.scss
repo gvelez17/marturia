@@ -4,7 +4,7 @@
   .wrapper {
     width: 90%;
 
-    .searchSelect{
+    .searchSelect {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -18,10 +18,11 @@
      form {
         width:24%;
         margin:0px 2px;
+
            @media (max-width: $break-lg) {
             width:100%;
             margin:0 0 10px;
-            }
+           }
 
         .search {
           border: 1px solid darkgray;
@@ -29,45 +30,39 @@
         }
       }
 
-      .selectSubmit{
-            margin:0px 2px;
+      .selectSubmit {
+           margin:0px 2px;
 
            @media (max-width: $break-lg) {
               display: flex;
               flex-direction: row;
               width:100%;
               margin:0px;
-          }
+           }
 
-         #countries{
-          padding: 8px 15px;
+         #countries {
+            padding: 8px 15px;
 
-          @media (max-width: $break-lg) {
+            @media (max-width: $break-lg) {
               width:100%;
-          }
+            }
+         }
 
-        }
-
-        .btn{
+        .btn {
             padding: 11px 15px;
             line-height: 1.15;
             margin:0 10px 0;
 
              @media (max-width: $break-lg) {
                 margin: 0 0px 0 10px;
-              }
-         } 
-
+             }
+        } 
       }
-
-     
-
-     
     }
 
     @media (max-width: $break-lg) {
       width: 80%;
-    }
+      }
   }
 
   .filter {
