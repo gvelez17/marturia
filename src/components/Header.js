@@ -18,15 +18,6 @@ const Header = () => {
             <li>
               <NavLink exact to="/" activeClassName="active">About</NavLink>
             </li>
-            <li>
-              <form>
-                <input 
-                  className="search" 
-                  type="search" 
-                  placeholder="Search..." 
-                />
-              </form>
-            </li>
           </ul>
         </nav>
       </header>
