@@ -1,7 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
+import axios from 'axios';
 import './Submit.scss';
+
+const url = 'https://gist.githubusercontent.com/ebaranov/41bf38fdb1a2cb19a781/raw/fb097a60427717b262d5058633590749f366bd80/gistfile1.json'
 
 const Submit = () => {
   const nameRef = useRef();
@@ -11,9 +14,18 @@ const Submit = () => {
     // console.log(data);
   };
 
+  const [data, setData] = useState({ countries: [] });
+
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
     nameRef.current.focus();
+  }, []);
+
+  useEffect(async () => {
+    const result = await axios(
+      url,
+    );
+    setData(result.data);
   }, []);
 
   return (
@@ -130,6 +142,21 @@ const Submit = () => {
                   ref={register}
                 />
               </div>
+               <div className="row">
+                <label htmlFor="country">Country of Origin</label>
+                <select>
+                  <option value="none" selected disabled hidden> 
+                    Select a country 
+                  </option> 
+                {data.countries.map(item => (
+                  <option
+                    key={item.country}
+                    value={item.country}>
+                    {item.country}
+                  </option>
+                ))}
+              </select>
+              </div> 
               <div className="row">
                 <label htmlFor="location">Current Location</label>
                 <textarea
