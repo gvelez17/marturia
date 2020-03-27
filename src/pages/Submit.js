@@ -2,13 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
+import langs from '../data/languages.js';
 
 const Submit = () => {
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
 
   const handleFormSubmit = (data) => {
-    // console.log(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -59,6 +60,25 @@ const Submit = () => {
                 {errors.discovery &&
                   <p className="error">Discovery is required</p>}
               </div>
+			  <div className="row">
+			  	<label htmlFor="language"> Language </label>
+                <select
+				  id="language"
+				  name="language"
+				  ref={register}>
+                  <option value="none"
+				    defaultValue>
+                    Select your language
+                  </option>
+                  {langs.map((item) => (
+                  <option
+                    key={item.code + item.name}
+                    value={item.code}>
+                    {item.name}
+                  </option>
+                ))}
+                </select>
+              </div>
               <div className="row radio">
                 <label>Is this your testimony?*</label>
                 <div className="radio-buttons">
@@ -98,6 +118,14 @@ const Submit = () => {
                 />
                 {errors.victim_name &&
                   <p className="error">Victim's name is required</p>}
+              </div>
+			  <div className="row">
+                <label htmlFor="gender">Gender</label>
+                <input
+                  id="gender"
+                  name="gender"
+                  ref={register({ required: true })}
+                />
               </div>
               <div className="row">
                 <label htmlFor="about">About*</label>
