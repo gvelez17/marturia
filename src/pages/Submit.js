@@ -25,7 +25,7 @@ const Submit = () => {
               <h1>Your information</h1>
               <div className="row">
                 <label htmlFor="name">Name*</label>
-                <input 
+                <input
                   id="name"
                   name="name"
                   type="text"
@@ -109,7 +109,7 @@ const Submit = () => {
                 />
                 {errors.about &&
                   <p className="error">About is required</p>}
-              </div>   
+              </div>
               <div className="row">
                 <label htmlFor="detainment">Detainment*</label>
                 <textarea
@@ -131,6 +131,15 @@ const Submit = () => {
                 />
               </div>
               <div className="row">
+                <label htmlFor="detainment_location">Location of Detainment</label>
+                <textarea
+                  id="detainment_location"
+                  name="detainment_location"
+                  placeholder="Location where victim  was detained.  Enter unknown if you don't know."
+                  ref={register}
+                />
+              </div>
+              <div className="row">
                 <label htmlFor="location">Current Location</label>
                 <textarea
                   id="location"
@@ -138,22 +147,13 @@ const Submit = () => {
                   placeholder="Where the victim is now. Enter unknown, if you don't know."
                   ref={register}
                 />
-              </div> 
+              </div>
               <div className="row">
                 <label htmlFor="status">Current Status</label>
                 <textarea
                   id="status"
                   name="status"
                   placeholder="Any information about the victim's current status. Key terms include disappeared, imprisoned, labor camp, released, emigrated, deceased."
-                  ref={register}
-                />
-              </div>
-              <div className="row">
-                <label htmlFor="incidents">Incidents</label>
-                <textarea
-                  id="incidents"
-                  name="incidents"
-                  placeholder="Describe any incident(s) the victim was involved in, including when and where it happened."
                   ref={register}
                 />
               </div>
