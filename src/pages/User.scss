@@ -3,12 +3,12 @@
 
 .reqreset-container {
 	@include user-container;
-	height: 185px;
+	height: 190px;
 }
 
 .reset-container {
 	@include user-container;
-	height: 250px;
+	height: 280px;
 }
 
 .login-container {
@@ -18,5 +18,5 @@
 
 .register-container {
 	@include user-container;
-	height: 450px;
+	height: 540px;
 }

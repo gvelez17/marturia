@@ -5,14 +5,31 @@ import './User.scss'
 
 const SignUp = () => {
   const nameRef = useRef();
-  const { register, handleSubmit, errors } = useForm()
+  const { register, watch, handleSubmit, errors } = useForm()
   const [err, setErr] = useState(' ')
 
   const handleFormSubmit = (data) => {
 	  setErr('')
 		data.user_role = "all"
 		delete data.ccpassword
-		console.log(data)
+		fetch(process.env.REACT_APP_API_BASE + 'users', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+		  'Content-Type': 'application/json'
+	    }
+		})
+		.then(res => res.json())
+		.then(data => {
+			if(data.status === 400) {
+				//invalid request
+			} else if(data.status === 201) {
+				//user created
+			} else {
+				//something went wrong
+			}
+		})
+		.catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -36,6 +53,8 @@ const SignUp = () => {
 				      nameRef.current = input;
 			        }}
 						/>
+						{errors.email &&
+							<p className="error">Email is required</p>}
 						<label htmlFor = 'name'> Name </label>
 						<input
 						  className=''
@@ -45,6 +64,8 @@ const SignUp = () => {
 				      register(input, { required: true });
 			        }}
 						/>
+						{errors.name &&
+							<p className="error">Name is required</p>}
 						<label htmlFor = 'password'> Password </label>
 						<input
 						  className=''
@@ -54,15 +75,19 @@ const SignUp = () => {
 				      register(input, { required: true });
 			        }}
 						/>
+						{errors.password &&
+							<p className="error"> Password is required</p>}
 						<label htmlFor = 'ccpassword'> Confirm Password </label>
 						<input
 						  className=''
 							type='password'
 							name='ccpassword'
-							ref={(input) => {
-				      register(input, { required: true });
-			        }}
+							ref={register({validate: (value) => {
+	    					return value === watch('password');
+	  					}})}
 						/>
+						{errors.ccpassword &&
+							<p className="error">Passwords must match</p>}
 						<label htmlFor = 'phone'> Phone Number (Optional) </label>
 						<input
 						  className=''

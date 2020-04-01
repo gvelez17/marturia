@@ -10,7 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     document.title = 'Login';
-	nameRef.current.focus();
+	  nameRef.current.focus();
   }, []);
 
   const handleFormSubmit = (data) => {
@@ -65,8 +65,8 @@ const Login = () => {
 			        name='password'
 		          ref={register({ required: true })}
 			      />
-			      <button> Login </button>
 			      <p className='error'> {err} </p>
+			      <button> Login </button>
 		      </form>
         </div>
 	    </div>

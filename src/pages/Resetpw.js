@@ -3,12 +3,34 @@ import MainLayout from '../components/MainLayout';
 import { useForm } from 'react-hook-form';
 import './User.scss';
 
+//need to get the token, how that will occur is not certain yet, wait for more information from jesus
 const ResetPW = () => {
   const nameRef = useRef();
   const { register, watch, handleSubmit, errors } = useForm()
 
 	const handleFormSubmit = (data) => {
-		console.log(data)
+		delete data.ccpassword
+
+		fetch(process.env.REACT_APP_API_BASE + 'reset', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+		  'Content-Type': 'application/json'
+	    }
+		})
+		.then(res => res.json())
+		.then(data => {
+			if(data.status === 200) {
+				//password changed
+			} else if(data.status === 400) {
+				//invalid request
+			} else if(data.status === 404) {
+				//error changing password
+			} else {
+				//something went wrong
+			}
+		})
+		.catch(err => console.log(err))
 	}
 
   useEffect(() => {
@@ -40,9 +62,9 @@ const ResetPW = () => {
     					return value === watch('password');
   					}})}
 					/>
-					<button> Submit </button>
 					{errors.ccpassword &&
 						<p className="error">Passwords must match</p>}
+					<button> Submit </button>
 				</form>
 			</div>
 		</MainLayout>
