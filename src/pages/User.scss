@@ -1,0 +1,22 @@
+@import '../styles/variables';
+@import '../styles/_user_classes';
+
+.reqreset-container {
+	@include user-container;
+	height: 185px;
+}
+
+.reset-container {
+	@include user-container;
+	height: 250px;
+}
+
+.login-container {
+	@include user-container;
+	height: 260px;
+}
+
+.register-container {
+	@include user-container;
+	height: 450px;
+}
