@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
-import axios from 'axios';
 import './Victims.scss';
 
-const url = 'https://gist.githubusercontent.com/ebaranov/41bf38fdb1a2cb19a781/raw/fb097a60427717b262d5058633590749f366bd80/gistfile1.json'
+import data from '../data/countries.json';
 
 const Victims = () => {
   useEffect(() => {
     document.title = 'Victims List - Testimony Database';
   }, []);
-
-  const [data, setData] = useState({ countries: [] });
-
-  useEffect(async () => {
-    const result = await axios(
-      url,
-    );
-    setData(result.data);
-  }, []);
-
 
   return (
     <MainLayout>
@@ -33,8 +22,8 @@ const Victims = () => {
               />
             </form>
             <div className="selectSubmit">
-               <select id="countries">
-                  <option value="none" selected disabled hidden> 
+               <select id="countries" defaultValue="none">
+                  <option value="none" disabled hidden> 
                     Select a country 
                   </option> 
                 {data.countries.map(item => (
