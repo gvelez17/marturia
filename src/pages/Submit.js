@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
 
-import data from '../data/countries.json';
-
 const Submit = () => {
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
@@ -132,21 +130,6 @@ const Submit = () => {
                   ref={register}
                 />
               </div>
-               <div className="row">
-                <label htmlFor="country">Country of Origin</label>
-                <select defaultValue="none">
-                  <option value="none" disabled hidden> 
-                    Select a country 
-                  </option> 
-                {data.countries.map(item => (
-                  <option
-                    key={item.country}
-                    value={item.country}>
-                    {item.country}
-                  </option>
-                ))}
-              </select>
-              </div> 
               <div className="row">
                 <label htmlFor="location">Current Location</label>
                 <textarea

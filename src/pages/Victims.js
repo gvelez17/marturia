@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import './Victims.scss';
 
-import data from '../data/countries.json';
-
 const Victims = () => {
   useEffect(() => {
     document.title = 'Victims List - Testimony Database';
@@ -22,17 +20,12 @@ const Victims = () => {
               />
             </form>
             <div className="selectSubmit">
-               <select id="countries" defaultValue="none">
-                  <option value="none" disabled hidden> 
-                    Select a country 
-                  </option> 
-                {data.countries.map(item => (
-                  <option
-                    key={item.country}
-                    value={item.country}>
-                    {item.country}
-                  </option>
-                ))}
+              <select id="countries">
+                  <option value="">Select country</option>
+                  <option value="China">China</option>
+                  <option value="Hong Kong">Hong Kong</option>
+                  <option value="Syria">Syria</option>
+                  <option value="Iraq">Iraq</option>
               </select>
               <button type="submit" className="btn">Submit</button>
             </div>
