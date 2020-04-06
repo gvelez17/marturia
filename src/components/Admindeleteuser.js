@@ -1,4 +1,5 @@
 import React, {useRef, useEffect, useState} from 'react';
+import {authorizationHeaders} from '../actions/headers';
 import './Admin.scss';
 
 const DeleteUser = (props) => {
@@ -9,13 +10,9 @@ const DeleteUser = (props) => {
 			return;
 		}
 
-		let headers = {
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		}
-
 		fetch(process.env.REACT_APP_API_BASE + 'users/' + user, {
 			method: 'DELETE',
-			headers: headers
+			headers: authorizationHeaders()
 		})
 		.then(res => res.json())
 		.then(data => {
@@ -29,7 +26,10 @@ const DeleteUser = (props) => {
 			} else if(data.status === 200) {
 				//user deleted
 				alert('user successfully deleted')
-			} else {
+			} else if (data.status === 403) {
+				//forbidden
+				alert('access forbidden');
+			}else {
 				alert('something went wrong')
 			}
 		})

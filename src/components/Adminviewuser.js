@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ViewUser from './Viewuser';
 import Popup from 'reactjs-popup';
+import {authorizationHeaders} from '../actions/headers';
 import './Admin.scss';
 
 const LookupUser = (props) => {
@@ -11,13 +12,10 @@ const LookupUser = (props) => {
 
 	const fetchUser = (user) => {
 		setUserData(null);
-		let headers = {
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		}
 
 		fetch(process.env.REACT_APP_API_BASE + 'users?iduser=' + user, {
 			method: 'GET',
-			headers: headers
+			headers: authorizationHeaders()
 		})
 		.then(res => res.json())
 		.then(data => {
@@ -31,9 +29,11 @@ const LookupUser = (props) => {
 			} else if(data.status === 404){
 				//user does not exist
 				alert('user does not exist');
+			} else if(data.status === 403){
+				//forbidden
+				alert('access forbidden');
 			} else {
-				//something went wrong
-				alert('something went wrong');
+				alert('somethign went wrong');
 			}
 		})
 		.catch(err => console.log(err))

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ViewUser from './Viewuser';
+import {authorizationHeaders} from '../actions/headers';
 import './Admin.scss';
 
 const ViewAllUsers = (props) => {
@@ -7,20 +8,9 @@ const ViewAllUsers = (props) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const fetchUserData = (user) => {
-		let headers = {
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		}
-
-		let params;
-		if(user === null) {
-			params = '';
-		} else {
-			params = '?iduser=' + user;
-		}
-
-		fetch(process.env.REACT_APP_API_BASE + 'users' + params, {
+		fetch(process.env.REACT_APP_API_BASE + 'users', {
 			method: 'GET',
-			headers: headers
+			headers: authorizationHeaders()
 		})
 		.then(res => res.json())
 		.then(data => {
@@ -31,6 +21,9 @@ const ViewAllUsers = (props) => {
 			} else if(data.status === 200) {
 				//got the data
 				setUsers(data.users);
+			} else if(data.status === 403){
+				//access forbidden
+				alert('access forbidden');
 			} else {
 				//something went wrong
 				alert('something went wrong');
