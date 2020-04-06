@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { 
+import {
   BrowserRouter as Router,
   Switch,
   Route
@@ -17,22 +17,24 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Victims from './pages/Victims';
 import Submit from './pages/Submit';
+import Login from './pages/Login'
+import ReqResetPW from './pages/Requestresetpw'
+import ResetPW from './pages/Resetpw'
+import AdminPanel from './pages/Adminpanel'
 
 const store = createStore(rootReducer, composeWithDevTools());
 
 const Routes = () => (
   <Router>
     <Switch>
-      <Route exact path='/'>
-        <Home />
-      </Route>
-      <Route path='/victims'>
-        <Victims />
-      </Route>
-      <Route path='/submit'>
-        <Submit />
-      </Route>
-      <Route component={NotFound} />        
+      <Route exact path='/' component={Home}/>
+      <Route path='/victims' component={Victims}/>
+      <Route path='/submit' component={Submit}/>
+	    <Route path='/login' component={Login}/>
+			<Route path='/reqreset' component={ReqResetPW}/>
+			<Route path='/reset' component={ResetPW}/>
+			<Route path='/admin' component={AdminPanel}/>
+      <Route component={NotFound}/>
     </Switch>
   </Router>
 );
@@ -40,7 +42,7 @@ const Routes = () => (
 ReactDOM.render(
   <Provider store={store}>
     <Routes />
-  </Provider>, 
+  </Provider>,
   document.getElementById('root')
 );
 
