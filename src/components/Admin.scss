@@ -1,0 +1,85 @@
+@import '../styles/variables';
+@import '../styles/_admin_classes';
+
+.admin-choice-container {
+	border: 1px solid darkgray;
+	border-radius: 4px;
+	height: 100px;
+	width: 200px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+
+.admin-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.userobj-container {
+	border: 1px solid darkgray;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	width: 400px;
+	margin-bottom: 10px;
+}
+
+.admin-choice-container:hover {
+	filter: brightness(65%);
+}
+
+.admin-container-wrapper {
+	@include admin-container-wrapper;
+	height: 250px;
+
+	.admin-delete-container {
+		@include admin-container;
+		height: 180px;
+	}
+
+	.admin-create-container {
+		@include admin-container;
+		height: 550px;
+	}
+
+	.admin-view-container {
+		@include admin-container;
+		height: 200px;
+	}
+}
+
+.view-users-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+
+	button {
+		width: 400px;
+		background-color: grey;
+		height: 35px;
+		border-radius: 4px;
+		margin-bottom: 5px;
+		cursor: pointer;
+		border-width: 0px;
+		font-weight: 500;
+	}
+}
+
+.popup {
+	.close-button {
+		cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -15px;
+    top: -34px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+	}
+
+	width: 400px;
+}
