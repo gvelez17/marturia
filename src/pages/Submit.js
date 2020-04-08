@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
+import langs from '../data/languages.js';
 
 import data from '../data/countries.json';
 
@@ -10,7 +11,7 @@ const Submit = () => {
   const { register, handleSubmit, errors } = useForm()
 
   const handleFormSubmit = (data) => {
-    // console.log(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const Submit = () => {
               <h1>Your information</h1>
               <div className="row">
                 <label htmlFor="name">Name*</label>
-                <input 
+                <input
                   id="name"
                   name="name"
                   type="text"
@@ -60,6 +61,25 @@ const Submit = () => {
                 />
                 {errors.discovery &&
                   <p className="error">Discovery is required</p>}
+              </div>
+			  <div className="row">
+			  	<label htmlFor="language"> Language </label>
+                <select
+				  id="language"
+				  name="language"
+				  ref={register}>
+                  <option value="none"
+				    defaultValue>
+                    Select your language
+                  </option>
+                  {langs.map((item) => (
+                  <option
+                    key={item.code + item.name}
+                    value={item.code}>
+                    {item.name}
+                  </option>
+                ))}
+                </select>
               </div>
               <div className="row radio">
                 <label>Is this your testimony?*</label>
@@ -101,6 +121,14 @@ const Submit = () => {
                 {errors.victim_name &&
                   <p className="error">Victim's name is required</p>}
               </div>
+			  <div className="row">
+                <label htmlFor="gender">Gender</label>
+                <input
+                  id="gender"
+                  name="gender"
+                  ref={register({ required: true })}
+                />
+              </div>
               <div className="row">
                 <label htmlFor="about">About*</label>
                 <textarea
@@ -111,7 +139,7 @@ const Submit = () => {
                 />
                 {errors.about &&
                   <p className="error">About is required</p>}
-              </div>   
+              </div>
               <div className="row">
                 <label htmlFor="detainment">Detainment*</label>
                 <textarea
@@ -148,6 +176,15 @@ const Submit = () => {
               </select>
               </div> 
               <div className="row">
+                <label htmlFor="detainment_location">Location of Detainment</label>
+                <textarea
+                  id="detainment_location"
+                  name="detainment_location"
+                  placeholder="Location where victim  was detained.  Enter unknown if you don't know."
+                  ref={register}
+                />
+              </div>
+              <div className="row">
                 <label htmlFor="location">Current Location</label>
                 <textarea
                   id="location"
@@ -155,22 +192,13 @@ const Submit = () => {
                   placeholder="Where the victim is now. Enter unknown, if you don't know."
                   ref={register}
                 />
-              </div> 
+              </div>
               <div className="row">
                 <label htmlFor="status">Current Status</label>
                 <textarea
                   id="status"
                   name="status"
                   placeholder="Any information about the victim's current status. Key terms include disappeared, imprisoned, labor camp, released, emigrated, deceased."
-                  ref={register}
-                />
-              </div>
-              <div className="row">
-                <label htmlFor="incidents">Incidents</label>
-                <textarea
-                  id="incidents"
-                  name="incidents"
-                  placeholder="Describe any incident(s) the victim was involved in, including when and where it happened."
                   ref={register}
                 />
               </div>

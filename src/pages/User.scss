@@ -1,0 +1,39 @@
+@import '../styles/variables';
+@import '../styles/_user_classes';
+
+.reqreset-container {
+	@include user-container;
+	height: 190px;
+}
+
+.reset-container {
+	@include user-container;
+	height: 280px;
+}
+
+.login-container {
+	@include user-container;
+	height: 260px;
+}
+
+.register {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.register-container {
+		@include user-container;
+		height: 550px;
+	}
+
+	.back-button {
+		width: 320px;
+		height: 35px;
+		cursor: pointer;
+		border-radius: 3px;
+		background-color: grey;
+		border-width: 0px;
+		font-weight: 500;
+		transform: translate(0%, 100%);
+	}
+}
