@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import { useForm } from 'react-hook-form';
+import {authContentTypeHeaders} from '../actions/headers';
 import '../pages/User.scss'
 
 const CreateUser = (props) => {
@@ -12,9 +13,7 @@ const CreateUser = (props) => {
 		fetch(process.env.REACT_APP_API_BASE + 'users', {
 			method: 'POST',
 			body: JSON.stringify(data),
-			headers: {
-		  'Content-Type': 'application/json'
-	    }
+			headers: authContentTypeHeaders()
 		})
 		.then(res => res.json())
 		.then(data => {
