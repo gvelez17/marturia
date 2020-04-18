@@ -9,3 +9,7 @@ export function authContentTypeHeaders() {
 	}
 	return headers
 }
+
+export function contentTypeHeaders() {
+	return {'Content-Type': 'application/json'}
+}
