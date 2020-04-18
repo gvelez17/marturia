@@ -30,10 +30,10 @@ const Routes = () => (
       <Route exact path='/' component={Home}/>
       <Route path='/victims' component={Victims}/>
       <Route path='/submit' component={Submit}/>
-	    <Route path='/login' component={Login}/>
-			<Route path='/reqreset' component={ReqResetPW}/>
-			<Route path='/reset' component={ResetPW}/>
-			<Route path='/admin' component={AdminPanel}/>
+	  <Route path='/login' component={Login}/>
+	  <Route path='/reqreset' component={ReqResetPW}/>
+	  <Route path='/reset' component={ResetPW}/>
+	  <Route path='/admin' component={AdminPanel}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>
