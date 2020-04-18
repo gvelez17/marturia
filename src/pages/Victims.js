@@ -1,12 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../components/MainLayout';
+import {debounce} from "lodash";
+import {getAge} from '../utils/utils';
 import './Victims.scss';
 
 import data from '../data/countries.json';
 
 const Victims = () => {
+	const [victimList, setVictimList] = useState([]);
+	const [displayList, setDisplayList] = useState([]);
+	const [countryList, setCountryList] = useState([]);
+
   useEffect(() => {
     document.title = 'Victims List - Testimony Database';
+
+		//for partially loading the reports if the number of reports is too large
+		//window.onscroll = debounce(() => {
+      //if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        //loadMoreData();
+      //}
+    //}, 100);
+
+		fetch(process.env.REACT_APP_API_BASE + 'victims')
+		.then(res => res.json())
+		.then(data => {
+			let vl = []
+			let cl = []
+			data.victims.forEach((victim) => {
+				if (!cl.includes(victim.country)) {
+					cl.push(victim.country)
+				}
+
+				vl.push({
+					"id": victim.ID,
+					"name": victim.name,
+					"status": victim.current_status,
+				  "location": victim.country,
+					"age": getAge(victim.date_of_birth)
+				  })
+			})
+			setVictimList(vl)
+			setDisplayList(vl)
+			setCountryList(cl)
+			console.log(victimList)
+		})
+		//might want to redirect to an error page becuase nothign will show
+		.catch(err => console.log(err))
   }, []);
 
   return (
@@ -15,30 +54,30 @@ const Victims = () => {
         <div className="wrapper">
           <div className="searchSelect">
             <form>
-              <input 
-                className="search" 
-                type="search" 
-                placeholder="Search..." 
+              <input
+                className="search"
+                type="search"
+                placeholder="Search..."
               />
             </form>
             <div className="selectSubmit">
                <select id="countries" defaultValue="none">
-                  <option value="none" disabled hidden> 
-                    Select a country 
-                  </option> 
-                {data.countries.map(item => (
+                  <option value="none" disabled hidden>
+                    Select a country
+                  </option>
+                {countryList.map(item => (
                   <option
-                    key={item.country}
-                    value={item.country}>
-                    {item.country}
+                    key={item}
+                    value={item}>
+                    {item}
                   </option>
                 ))}
               </select>
               <button type="submit" className="btn">Submit</button>
             </div>
-          </div>    
+          </div>
           <ul className="list">
-            {mockData.map((item, index) => (
+            {displayList.map((item, index) => (
               <li key={item.id}>
                 <div className="col">
                   <img
