@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import { useForm } from 'react-hook-form';
 import {authContentTypeHeaders} from '../actions/headers';
 import '../pages/User.scss'

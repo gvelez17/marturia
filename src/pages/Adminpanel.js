@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import MainLayout from '../components/MainLayout';
 import AdminMenu from '../components/AdminMenu';
-import { NavLink } from 'react-router-dom';
 //e@e.e
 const AdminPanel = () => {
 
