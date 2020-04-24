@@ -34,84 +34,79 @@ const CreateUser = (props) => {
 
   return (
 		  <div className='register'>
-				<button
-					className='back-button'
-				  onClick={() => props.setDisplay('menu')}> Return to Menu </button>
-  	    <div className='register-container'>
-          <form onSubmit={handleSubmit(handleFormSubmit)}>
+  	    	<div className='register-container'>
+          		<form onSubmit={handleSubmit(handleFormSubmit)}>
 					  <label htmlFor = 'email'> Email </label>
 						<input
-						  className=''
+							className=''
 							type='text'
 							name='email'
 							ref={(input) => {
-				      register(input, { required: true });
-				      nameRef.current = input;
-			        }}
+				      			register(input, { required: true });
+				      			nameRef.current = input;
+			        		}}
 						/>
 						{errors.email &&
 							<p className="error">Email is required</p>}
-						<label htmlFor = 'name'> Name </label>
-						<input
-						  className=''
-							type='text'
-							name='name'
-							ref={(input) => {
-				      register(input, { required: true });
-			        }}
-						/>
-						{errors.name &&
-							<p className="error">Name is required</p>}
-						<label htmlFor = 'password'> Password </label>
-						<input
-						  className=''
-							type='password'
-							name='password'
-							ref={(input) => {
-				      register(input, { required: true });
-			        }}
-						/>
-						{errors.password &&
-							<p className="error"> Password is required</p>}
-						<label htmlFor = 'ccpassword'> Confirm Password </label>
-						<input
-						  className=''
-							type='password'
-							name='ccpassword'
-							ref={register({validate: (value) => {
-	    					return value === watch('password');
-	  					}})}
-						/>
-						{errors.ccpassword &&
-							<p className="error">Passwords must match</p>}
-						<label htmlFor = 'phone'> Phone Number (Optional) </label>
-						<input
-						  className=''
-							type='tel'
-							pattern="[0-9]{10}"
-							name='phone'
-							ref={(input) => {
-				      register(input, { required: false });
-			        }}
-						/>
-						<label htmlFor='user_role'> User Role </label>
-						<select
-						  className=''
-							name='user_role'
-							ref={register}
-						>
-							<option
-								value={'editor'}
-							> editor </option>
-							<option
-								value={'admin'}
-							> admin </option>
-						</select>
+							<label htmlFor = 'name'> Name </label>
+							<input
+						  		className=''
+								type='text'
+								name='name'
+								ref={(input) => {
+				      				register(input, { required: true });
+			        			}}
+							/>
+							{errors.name &&
+								<p className="error">Name is required</p>}
+								<label htmlFor = 'password'> Password </label>
+								<input
+						  			className=''
+									type='password'
+									name='password'
+									ref={(input) => {
+				      					register(input, { required: true });
+			        				}}
+								/>
+							{errors.password &&
+								<p className="error"> Password is required</p>}
+								<label htmlFor = 'ccpassword'> Confirm Password </label>
+								<input
+						  			className=''
+									type='password'
+									name='ccpassword'
+									ref={
+										register({validate: (value) => {
+	    								return value === watch('password');
+	  									}}
+	  								)}
+								/>
+							{errors.ccpassword &&
+								<p className="error">Passwords must match</p>}
+								<label htmlFor = 'phone'> Phone Number (Optional) </label>
+								<input
+						  			className=''
+									type='tel'
+									pattern="[0-9]{10}"
+									name='phone'
+									ref={(input) => {
+				      					register(input, { required: false });
+			       						 }}
+								/>
+								<label htmlFor='user_role'> User Role </label>
+								<select
+						  			className=''
+									name='user_role'
+									ref={register}
+								>
+									<option value={'editor'}> editor </option>
+									<option value={'admin'}> admin </option>
+								</select>
 						<button> Create Account </button>
 					</form>
-        </div>
-  	  </div>
-  )
+        		</div>
+  	 		 </div>
+ 		)
 }
 
 export default CreateUser

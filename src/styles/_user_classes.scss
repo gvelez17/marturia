@@ -3,14 +3,10 @@
 @mixin user-container {
 	width: 320px;
 	background: $light-green;
-	position: absolute;
-	top: 50%;
-	left: 50%;
 	padding-top: 10px;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-bottom: 30px;
-	transform: translate(-50%, -50%);
 	border-radius: 4px;
 	align-items: center;
 	display: flex;

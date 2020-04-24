@@ -38,9 +38,6 @@ const DeleteUser = (props) => {
 
 	return (
 		<div className='admin-container-wrapper'>
-		  <button
-		 	  className='back-button'
-			  onClick={() => props.setDisplay('menu')}> Back to Menu </button>
 		  <div className='admin-delete-container'>
 			  <label htmlFor='del'> User ID </label>
 			  <input

@@ -43,7 +43,6 @@ const ViewAllUsers = (props) => {
 	let content = (
 		<div className='admin-container'>
 		<div className='view-users-container'>
-			<button onClick={() => props.setDisplay('menu')}> Back to Menu </button>
 			{users.map((user) =>
 				<div className='userobj-container'>
 				<ViewUser
