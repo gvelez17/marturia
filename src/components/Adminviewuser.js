@@ -66,7 +66,6 @@ const LookupUser = (props) => {
 
 	let content = (
 		<div className='admin-container-wrapper'>
-		  <button onClick={() => props.setDisplay('menu')}> Back to Menu </button>
 		  <div className='admin-view-container'>
 				<label htmlFor='id'> User ID </label>
 				<br/>

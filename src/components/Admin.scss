@@ -1,19 +1,43 @@
 @import '../styles/variables';
 @import '../styles/_admin_classes';
 
+.admin-wrapper{
+	display: flex;
+	width: "90%" 
+}
+
 .admin-choice-container {
 	border: 1px solid darkgray;
 	border-radius: 4px;
-	height: 100px;
-	width: 200px;
+	height:180px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	cursor: pointer;
+	flex:1 0 200px;
+	max-width:200px;
+
+	ul {
+		list-style-type: none;
+		padding:0;
+
+		li {
+			padding:10px;
+			text-align: center;
+			margin: 6px 0;
+		}
+
+		a  {
+			text-decoration: none;
+		}
+	}
 }
+
 
 .admin-container {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+	flex: 4;
+	padding: 10px;
 }
 
 .userobj-container {

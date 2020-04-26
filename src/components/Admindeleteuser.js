@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {authorizationHeaders} from '../actions/headers';
 import './Admin.scss';
 
@@ -38,9 +38,6 @@ const DeleteUser = (props) => {
 
 	return (
 		<div className='admin-container-wrapper'>
-		  <button
-		 	  className='back-button'
-			  onClick={() => props.setDisplay('menu')}> Back to Menu </button>
 		  <div className='admin-delete-container'>
 			  <label htmlFor='del'> User ID </label>
 			  <input
