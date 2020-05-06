@@ -1,17 +1,41 @@
 import React, { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { openModal } from '../actions/modalPopup'
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
 import langs from '../data/languages.js';
-
 import data from '../data/countries.json';
 
-const Submit = () => {
+const Submit = ({ dispatch }) => {
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const handleFormSubmit = (data, e) => {
+      fetch(`${process.env.REACT_APP_API_BASE}/report`, {
+      method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+		    'Content-Type': 'application/json'
+	    }
+    })
+    .then(res => res.json())
+    .then(response => {
+      switch(response.status) {
+        case 200:
+          e.target.reset();
+          dispatch(openModal("The report was submitted successfully!"))
+          break;
+        case 400:
+          dispatch(openModal(`Something went wrong! Error: ${response.message}`))
+          break;
+        default:
+          dispatch(openModal("Something went wrong!"))
+      }})
+    .catch(err => {
+      dispatch(openModal("Something went wrong!"))
+    })
+
   };
 
   useEffect(() => {
@@ -45,7 +69,7 @@ const Submit = () => {
                 <input
                   id="email"
                   name="email"
-                  type="text"
+                  type="email"
                   ref={register({ required: true })}
                 />
                 {errors.email &&
@@ -245,4 +269,5 @@ const Submit = () => {
   );
 };
 
-export default Submit;
+export default connect()(Submit);
+

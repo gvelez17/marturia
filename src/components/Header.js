@@ -32,23 +32,3 @@ const Header = () => {
 };
 
 export default Header;
-
-    //   <header className="main-header">
-    //     <div className="logo"><p>Testimony Database</p></div>
-    //     <nav className="main-navigation">
-    //       <ul>
-    //         <li>
-    //           <NavLink to="/victims" activeClassName="active">Victims</NavLink>
-    //         </li>
-    //         <li>
-    //           <NavLink to="/submit" activeClassName="active">Submit</NavLink>
-    //         </li>
-    //         <li>
-    //           <NavLink exact to="/" activeClassName="active">About</NavLink>
-    //         </li>
-    //         <li>
-    //           <NavLink exact to="/admin" activeClassName="active">Admin</NavLink>
-    //         </li>
-    //       </ul>
-    //     </nav>
-    //   </header>
