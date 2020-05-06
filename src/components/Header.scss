@@ -4,18 +4,14 @@
   background: #25646a;
 
   .main-header {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    max-width: $max-page-width;
-    margin: 0 auto;
-    letter-spacing: 0.08rem;
-  
+      padding: 0;
+    .navbar-toggler {
+        margin-right: 5px;
+    }
     .logo {
       flex: 1 0 200px;
       max-width: 200px;
+      padding: 10px;
       color: $white-1;
       background: rgb(0, 0, 0); // fallback
       background: rgba(0, 0, 0, 0.55);
@@ -36,18 +32,66 @@
   }
 }
 
-.main-navigation {
-  flex: 4;
-
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;;
-
-    li {
+#basic-navbar-nav {
+    margin-top: 10px;
+    .navbar-nav {
       font-size: 0.95em;
 
-      a {
+      .nav-link {
+        display: block;
+        padding: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: $white-1;
+
+        &.active {
+          background: rgb(0, 0, 0); // fallback
+          background: rgba(0, 0, 0, 0.55);
+        }
+      }
+    }
+  }
+
+
+@media (min-width: 992px) {
+    .main-header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: $max-page-width;
+    margin: 0 auto;
+    letter-spacing: 0.08rem;
+    padding: 0;
+  
+    .logo {
+      flex: 1 0 200px;
+      max-width: 200px;
+      color: $white-1;
+      background: rgb(0, 0, 0); // fallback
+      background: rgba(0, 0, 0, 0.55);
+      font-size: 1.2em;
+      line-height: 1.4;
+      text-align: center;
+      text-transform: uppercase;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: normal;
+    }
+    }
+
+#basic-navbar-nav {
+  flex: 4;
+  align-items: center;
+  justify-content: flex-end;;
+    .navbar-nav {
+      font-size: 0.95em;
+
+      .nav-link {
         display: block;
         padding: 20px;
         font-weight: bold;
@@ -63,4 +107,6 @@
       }
     }
   }
+
 }
+

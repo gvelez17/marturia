@@ -3,17 +3,18 @@
 
 .admin-wrapper{
 	display: flex;
-	width: "90%" 
+	width: 90%;
+    margin-top: 30px;
 }
 
 .admin-choice-container {
 	border: 1px solid darkgray;
 	border-radius: 4px;
-	height:180px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	cursor: pointer;
 	flex:1 0 200px;
 	max-width:200px;
+    height: 210px;
 
 	ul {
 		list-style-type: none;
