@@ -12,7 +12,7 @@ import './styles/normalize.css';
 import './styles/global.scss';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
-
+import ModalPopup from './components/ModalPopup/ModalPopup'
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Victims from './pages/Victims';
@@ -42,6 +42,7 @@ const Routes = () => (
 ReactDOM.render(
   <Provider store={store}>
     <Routes />
+    <ModalPopup />
   </Provider>,
   document.getElementById('root')
 );
@@ -50,3 +51,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
