@@ -13,12 +13,12 @@ function ModalPopup({modal, dispatch}) {
   const popupStyle = {
     content: {
       position: "relative",
-      background: "rgb(255, 255, 255)",
-      width: "400px",
+      background: "#f4f7f6",
+      width: "350px",
       margin: "auto",
       border: "10px solid #25646a",
       fontSize: "1.5rem",
-      fontWeight: "1.5rem",
+      fontWeight: "bold",
       padding: "5px",
       borderRadius: "4px",
       height: "200px",
