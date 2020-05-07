@@ -1,0 +1,35 @@
+.view-item {
+	width: 600px;
+
+	.view-title {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		border-bottom: 1px solid black;
+		padding-bottom: 5px;
+		margin-top: 10px;
+
+		.view-item-title {
+			font-weight: bold;
+			user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-o-user-select: none;
+		}
+	}
+}
+
+.incident-container {
+	margin-top: 10px;
+	border: thin solid black;
+	border-radius: 4px;
+	padding: 10px 10px 10px 10px;
+
+	.incident-top {
+		border-bottom: thin solid black;
+	}
+}
+
+.details-container {
+}
