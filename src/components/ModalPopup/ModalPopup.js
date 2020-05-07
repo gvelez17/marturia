@@ -2,6 +2,7 @@ import React from 'react'
 import Popup from 'reactjs-popup'
 import { connect } from 'react-redux'
 import { closeModal } from '../../actions/modalPopup';
+import './ModalPopup.scss';
 
   const mapStateToProps = state => {
   return {
