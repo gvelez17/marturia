@@ -57,7 +57,7 @@
           @media (max-width: $break-lg) {
             margin: 0 0px 0 10px;
           }
-        } 
+        }
       }
     }
 
@@ -86,6 +86,8 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
+			overflow-wrap: break-word;
+			word-break: break-all;
       width: 48%;
       background: white;
       border-radius: 4px;
