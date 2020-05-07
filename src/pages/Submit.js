@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
 import langs from '../data/languages.js';
+import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
+import {getISOfromDatepicker} from '../utils/utils'
 
 import data from '../data/countries.json';
 
@@ -10,9 +12,89 @@ const Submit = () => {
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
+  const handleFormSubmit = (form) => {
+		let reportObj = constructReportObj(form)
+
+	  fetch(process.env.REACT_APP_API_BASE + 'reports', {
+		  method: "POST",
+		  headers: contentTypeHeaders(),
+		  body: JSON.stringify(reportObj)
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data)
+			if(data.status === 400) {
+				//invalid request
+				alert('invalid request')
+			} else if(data.status === 201) {
+				//report created, want to redirect to success screens
+				submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
+
+			} else {
+				//something went wrong
+				alert('something went wrong')
+			}
+		})
+		.catch(err => console.log(err))
   };
+
+	const submitMedia = (fileObj, id) => {
+	}
+
+	const submitVictimTranslation = (victimTranslationObj, id) => {
+		fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victim-translations', {
+			method: "POST",
+			headers: authContentTypeHeaders(),
+			body: JSON.stringify(victimTranslationObj)
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data)
+		})
+		.catch(err => console.log(err))
+	}
+
+  const constructReportObj = (data) => {
+		if (data.photo.length !== 0) {
+			submitMedia(data.photo, data.victim.ID)
+		}
+		if (data.documents.length !== 0) {
+			submitMedia(data.documents, data.victim.ID)
+		}
+
+	  let victimTranslationObj = {
+		  "language": data.language,
+		  "gender": data.gender,
+		  "nationality": data.country,
+		  "current_status": data.status,
+		  "languagues_spoken": data.language
+	  }
+
+	  let incidentTranslationObj = {
+		  "language": data.language,
+		  "narrative_of_incident": data.detainment
+	  }
+	  console.log(data)
+	  let incidentObj = {
+		  "date_of_incident": getISOfromDatepicker(data.detainment_date),
+		  "location": data.detainment_location,
+		  //"is_disappearance": data.,
+		  "is_direct_testimony": (data.own_testimony === 'yes'),
+		  "discovery": data.discovery,
+		  "IncidentTranslation": [incidentTranslationObj]
+	  }
+
+	  let reportObj = {
+		  "name": data.victim_name,
+			"current_status": data.status,
+			"country": data.country,
+			"date_of_birth": getISOfromDatepicker(data.birth_date),
+		  "last_seen_place": data.detainment_location,
+		  "VictimTranslation": [victimTranslationObj],
+		  "Incident": [incidentObj]
+	  }
+	  return reportObj
+  }
 
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
@@ -129,6 +211,15 @@ const Submit = () => {
                   ref={register({ required: true })}
                 />
               </div>
+							<div className="row">
+                <label htmlFor="birth_date">Date of Birth*</label>
+                <input type="date"
+											 id="birth_date"
+											 name="birth_date"
+											 ref={register({ required: true })}/>
+                {errors.birth_date &&
+                  <p className="error">Birth Date is required</p>}
+              </div>
               <div className="row">
                 <label htmlFor="about">About*</label>
                 <textarea
@@ -139,6 +230,15 @@ const Submit = () => {
                 />
                 {errors.about &&
                   <p className="error">About is required</p>}
+              </div>
+							<div className="row">
+                <label htmlFor="detainment_date">Date of Detainment*</label>
+                <input type="date"
+											 id="detainment_date"
+											 name="detainment_date"
+											 ref={register({ required: true })}/>
+                {errors.detainment_date &&
+                  <p className="error">Detainment Date is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="detainment">Detainment*</label>
@@ -162,10 +262,13 @@ const Submit = () => {
               </div>
                <div className="row">
                 <label htmlFor="country">Country of Origin</label>
-                <select defaultValue="none">
-                  <option value="none" disabled hidden> 
-                    Select a country 
-                  </option> 
+                <select defaultValue="none"
+												id="country"
+												name="country"
+												ref={register}>
+                  <option value="none" disabled hidden>
+                    Select a country
+                  </option>
                 {data.countries.map(item => (
                   <option
                     key={item.country}
@@ -174,7 +277,7 @@ const Submit = () => {
                   </option>
                 ))}
               </select>
-              </div> 
+              </div>
               <div className="row">
                 <label htmlFor="detainment_location">Location of Detainment</label>
                 <textarea
