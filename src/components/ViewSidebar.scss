@@ -1,0 +1,56 @@
+@import '../styles/variables';
+
+@mixin sidebar-header {
+	background-color: $primary-green;
+	text-align: center;
+	p {
+		color: $white-1;
+	}
+}
+
+.sidebar-header-1 {
+	@include sidebar-header;
+	position: absolute;
+	width: 100%;
+}
+
+.sidebar-header-2 {
+	@include sidebar-header;
+}
+
+.sidebar-body {
+	position: relative;
+	top: 70px;
+}
+
+@mixin sidebar-item {
+	border: thin solid black;
+	border-radius: 4px;
+}
+
+.sidebar-top {
+	@include sidebar-item;
+	position: relative;
+	justify-content: space-between;
+	padding-bottom: 70px;
+}
+
+.sidebar-content {
+	margin-left: 10px;
+}
+
+.sidebar-bot {
+	@include sidebar-item;
+	margin-top: 15px;
+	position: relative;
+}
+
+.sidebar-pic {
+	text-align: center;
+}
+
+.sidebar-container {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+}
