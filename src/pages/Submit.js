@@ -29,7 +29,7 @@ const Submit = () => {
 			} else if(data.status === 201) {
 				//report created, want to redirect to success screens
 				submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
-
+				submitIncident(reportObj.Incident[0], data.victim.ID)
 			} else {
 				//something went wrong
 				alert('something went wrong')
@@ -46,6 +46,19 @@ const Submit = () => {
 			method: "POST",
 			headers: authContentTypeHeaders(),
 			body: JSON.stringify(victimTranslationObj)
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data)
+		})
+		.catch(err => console.log(err))
+	}
+
+	const submitIncident = (incidentObj, id) => {
+		fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/incidents', {
+			method: "POST",
+			headers: authContentTypeHeaders(),
+			body: JSON.stringify(incidentObj)
 		})
 		.then(res => res.json())
 		.then(data => {
@@ -87,6 +100,7 @@ const Submit = () => {
 	  let reportObj = {
 		  "name": data.victim_name,
 			"current_status": data.status,
+			"gender": data.gender,
 			"country": data.country,
 			"date_of_birth": getISOfromDatepicker(data.birth_date),
 		  "last_seen_place": data.detainment_location,
