@@ -21,6 +21,7 @@ import Login from './pages/Login'
 import ReqResetPW from './pages/Requestresetpw'
 import ResetPW from './pages/Resetpw'
 import AdminPanel from './pages/Adminpanel'
+import ViewVictim from './pages/Viewvictim'
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -34,6 +35,7 @@ const Routes = () => (
 			<Route path='/reqreset' component={ReqResetPW}/>
 			<Route path='/reset' component={ResetPW}/>
 			<Route path='/admin' component={AdminPanel}/>
+			<Route path='/view/:id' component={ViewVictim}/>
       <Route component={NotFound}/>
     </Switch>
   </Router>
