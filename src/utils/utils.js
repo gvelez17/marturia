@@ -15,3 +15,13 @@ export function getAge(date) {
 	let ageDate = new Date(diff)
 	return Math.abs(ageDate.getUTCFullYear() - 1970)
 }
+
+//checking to see if the token is expired
+export function tokenIsStillValid() {
+	let exp = Date.parse(localStorage.getItem('expiration'))
+	let now = Date.now()
+	if(now > exp) {
+		return false
+	}
+	return localStorage.getItem('token') !== null
+}
