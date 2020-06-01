@@ -18,9 +18,6 @@ const Header = () => {
             <li>
               <NavLink exact to="/" activeClassName="active">About</NavLink>
             </li>
-            <li>
-              <NavLink exact to="/admin" activeClassName="active">Admin</NavLink>
-            </li>
           </ul>
         </nav>
       </header>
