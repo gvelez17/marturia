@@ -1,6 +1,8 @@
 import React, {useRef, useEffect, useState} from 'react';
 import MainLayout from '../components/MainLayout';
+import { Link, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import {tokenIsStillValid} from '../utils/utils'
 import './User.scss';
 
 const Login = () => {
@@ -10,8 +12,11 @@ const Login = () => {
 
   useEffect(() => {
     document.title = 'Login';
-	  nameRef.current.focus();
   }, []);
+
+	if(tokenIsStillValid()) {
+		return <Redirect to='/admin'/>
+	}
 
   const handleFormSubmit = (data) => {
 	  setErr('')
@@ -33,6 +38,7 @@ const Login = () => {
 	    } else if(data.status === 200) {
 		    localStorage.setItem('token', data.token)
 		    localStorage.setItem('expiration', data.Expires)
+				window.location.reload()
 	    } else {
 		    setErr('Something went wrong')
 	    }
@@ -66,6 +72,9 @@ const Login = () => {
 		          ref={register({ required: true })}
 			      />
 			      <p className='error'> {err} </p>
+						<Link to='reqreset'>
+							<p className='link'> Forgot Password? </p>
+						</Link>
 			      <button> Login </button>
 		      </form>
         </div>
