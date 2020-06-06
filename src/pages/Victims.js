@@ -111,11 +111,11 @@ const Victims = (props) => {
 	            <div className="selectSubmit">
 								<select
 									id='status'
-									onChange={(e) => setStatus(e.target.value.toLowerCase())}
+									onChange={(e) => setStatus(e.target.value)}
 									value={status}>
 								<option
 									key={'sel'}
-									value='all'>
+									value='All'>
 									Select Status
 								</option>
 								{statuses.status.map(item => (
@@ -168,7 +168,7 @@ const Victims = (props) => {
 	                  </div>
 	                </div>
 	              </li>
-	            )): null}
+	            )): victimList === null? <p> loading... </p>: <p> No victims matching search parameters found </p>}
 	          </ul>
 	        </div>
 	      </div>
