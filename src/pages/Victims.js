@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
+import Popup from 'reactjs-popup';
 import {debounce} from "lodash";
 import {getAge} from '../utils/utils';
 import './Victims.scss';
 import data from '../data/countries.json';
+import statuses from '../data/status.json';
 
 const queryString = require('query-string');
 
 const Victims = (props) => {
-	const [victimList, setVictimList] = useState([]);
+	const [victimList, setVictimList] = useState(null);
 	const [isSearch, setIsSearch] = useState(false);
-	const [name, setName] = useState(null);
-	const [status, setStatus] = useState(null);
-	const [country, setCountry] = useState(null);
+	const [name, setName] = useState('');
+	const [status, setStatus] = useState('');
+	const [country, setCountry] = useState('Select Country');
+	const [showPopup, setShowPopup] = useState(false)
 
 
 	const constructQStr = (name, country, status) => {
@@ -25,7 +28,7 @@ const Victims = (props) => {
 			qstr += "victim-name=" + "&";
 		}
 
-		if(country) {
+		if(country && country !== 'Select Country') {
 			qstr += "country=" + country + "&";
 		} else {
 			qstr += "country=all" + "&";
@@ -49,9 +52,12 @@ const Victims = (props) => {
       //}
     //}, 100);
 		let query = queryString.parse(props.location.search);
-		console.log(query)
-		let qstr = constructQStr(query.name, query.country, query.status);
-		console.log(qstr)
+		//console.log(query)
+		setCountry(query.country?query.country:'')
+		setStatus(query.status?query.status:'')
+		setName(query['victim-name']?query['victim-name']:'')
+		let qstr = constructQStr(query['victim-name'], query.country, query.status);
+		//console.log(qstr)
 		fetch(process.env.REACT_APP_API_BASE + 'victims'+ qstr)
 		.then(res => res.json())
 		.then(data => {
@@ -97,28 +103,38 @@ const Victims = (props) => {
 								onSubmit={(e) => e.preventDefault()}>
 	              <input
 	                className="search"
-	                type="search"
-	                placeholder="Search..."
+	                placeholder="Search by name..."
 									onChange={(e) => setName(e.target.value)}
+									value={name}
 	              />
-
 	            </form>
-							<form
-								onSubmit={(e) => e.preventDefault()}>
-								<input
-	                className="status"
-	                placeholder="Status..."
-									onChange={(e) => setStatus(e.target.value)}
-	              />
-							</form>
 	            <div className="selectSubmit">
 								<select
+									id='status'
+									onChange={(e) => setStatus(e.target.value.toLowerCase())}
+									value={status}>
+								<option
+									key={'sel'}
+									value='all'>
+									Select Status
+								</option>
+								{statuses.status.map(item => (
+									<option
+										key={item}
+										value={item}>
+										{item}
+									</option>
+								))}
+								</select>
+								<select
 									id="countries"
-									defaultValue="none"
-									onChange={(e) => setCountry(e.target.value)}>
-									 <option value="none" disabled hidden>
-										 Select a country
-									 </option>
+									onChange={(e) => setCountry(e.target.value)}
+									value={country}>
+								 <option
+									 key={'all'}
+									 value='Select Country'>
+									 Select Country
+								 </option>
 								 {data.countries.map(item => (
 									 <option
 										 key={item.country}
@@ -134,7 +150,7 @@ const Victims = (props) => {
 	            </div>
 	          </div>
 	          <ul className="list">
-	            {victimList.map((item, index) => (
+	            {victimList && victimList.length !== 0? victimList.map((item, index) => (
 	              <li key={item.id}>
 	                <div className="col">
 	                  <img
@@ -152,7 +168,7 @@ const Victims = (props) => {
 	                  </div>
 	                </div>
 	              </li>
-	            ))}
+	            )): null}
 	          </ul>
 	        </div>
 	      </div>
