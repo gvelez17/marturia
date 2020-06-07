@@ -49,6 +49,15 @@
           }
         }
 
+				#status {
+          padding: 8px 15px;
+					margin-right: 4px;
+
+          @media (max-width: $break-lg) {
+            width: 100%;
+          }
+        }
+
         .btn {
           padding: 11px 15px;
           line-height: 1.15;

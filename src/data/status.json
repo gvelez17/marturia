@@ -1,0 +1,11 @@
+{
+	"status": [
+		"All",
+		"Disappeared",
+		"Imprisoned",
+		"Labor Camp",
+		"Released",
+		"Emigrated",
+		"Deceased"
+	]
+}
