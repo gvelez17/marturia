@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import {Motion, spring} from 'react-motion';
 import './ViewComponent.scss';
 
 const ViewItem = (props) => {
@@ -16,9 +17,15 @@ const ViewItem = (props) => {
 	let caret;
 	if(props.shown[props.category]) {
 		info = (
-			<div>
-				{props.info}
-			</div>
+			<Motion
+				defaultStyle={{opacity: 0, height: 0}}
+				style={{opacity: spring(1), height: spring(document.getElementById(props.category).clientHeight)}}>
+				{style => (
+					<div style={{opacity: style.opacity, height: style.height}} name={props.category}>
+						{props.info}
+					</div>
+				)}
+			</Motion>
 		)
 
 		caret = (

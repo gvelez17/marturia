@@ -9,7 +9,6 @@ const Header = () => {
         <div className="logo"><p>Testimony Database</p></div>
         <nav className="main-navigation">
           <ul>
-
             <li>
               <NavLink to="/victims" activeClassName="active">Victims</NavLink>
             </li>
@@ -19,7 +18,6 @@ const Header = () => {
             <li>
               <NavLink exact to="/" activeClassName="active">About</NavLink>
             </li>
-            
           </ul>
         </nav>
       </header>
