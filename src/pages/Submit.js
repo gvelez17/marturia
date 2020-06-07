@@ -1,16 +1,32 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
 import langs from '../data/languages.js';
 import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
+import {constructReportObj, submitVictimTranslation, submitAllIncidents} from '../actions/submit'
 import {getISOfromDatepicker} from '../utils/utils'
-
 import data from '../data/countries.json';
 
+const statuses = ["Disappeared", "Imprisoned", "Labor Camp", "Released", "Emigrated", "Deceased"]
+
 const Submit = () => {
+	const createIncidentObj = () => {
+		return {
+			"date_of_incident": null,
+			"incident_location": '',
+			"is_disappearance": false,
+			"incident_narrative": '',
+			"incident_media": ''
+		}
+	}
+
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
+	const [incidents, setIncidents] = useState([0])
+	const [incidentData, setIncidentData] = useState({
+		0: createIncidentObj()
+	})
 
   const handleFormSubmit = (form) => {
 		let reportObj = constructReportObj(form)
@@ -29,7 +45,7 @@ const Submit = () => {
 			} else if(data.status === 201) {
 				//report created, want to redirect to success screens
 				submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
-				submitIncident(reportObj.Incident[0], data.victim.ID)
+				submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
 			} else {
 				//something went wrong
 				alert('something went wrong')
@@ -38,81 +54,37 @@ const Submit = () => {
 		.catch(err => console.log(err))
   };
 
-	const submitMedia = (fileObj, id) => {
-	}
-
-	const submitVictimTranslation = (victimTranslationObj, id) => {
-		fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victim-translations', {
-			method: "POST",
-			headers: authContentTypeHeaders(),
-			body: JSON.stringify(victimTranslationObj)
-		})
-		.then(res => res.json())
-		.then(data => {
-			console.log(data)
-		})
-		.catch(err => console.log(err))
-	}
-
-	const submitIncident = (incidentObj, id) => {
-		fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/incidents', {
-			method: "POST",
-			headers: authContentTypeHeaders(),
-			body: JSON.stringify(incidentObj)
-		})
-		.then(res => res.json())
-		.then(data => {
-			console.log(data)
-		})
-		.catch(err => console.log(err))
-	}
-
-  const constructReportObj = (data) => {
-		if (data.photo.length !== 0) {
-			submitMedia(data.photo, data.victim.ID)
+	const addIncident = (e) => {
+		e.preventDefault()
+		let newObj = Object.assign({}, incidentData)
+		if(incidents.length === 0) {
+			newObj[0] = createIncidentObj()
+			setIncidentData(newObj)
+			return setIncidents([0])
 		}
-		if (data.documents.length !== 0) {
-			submitMedia(data.documents, data.victim.ID)
-		}
+		let newIndex = incidents[incidents.length - 1] + 1
+		newObj[newIndex] = createIncidentObj()
+		setIncidentData(newObj)
+		setIncidents([...incidents, newIndex])
+	}
 
-	  let victimTranslationObj = {
-		  "language": data.language,
-		  "gender": data.gender,
-		  "nationality": data.country,
-		  "current_status": data.status,
-		  "languagues_spoken": data.language
-	  }
+	const deleteIncident = (e, index) => {
+		e.preventDefault()
+		let newObj = Object.assign({}, incidentData)
+		delete newObj[index]
+		setIncidentData(newObj)
+		setIncidents([...incidents.filter((val => val !== index))])
+	}
 
-	  let incidentTranslationObj = {
-		  "language": data.language,
-		  "narrative_of_incident": data.detainment
-	  }
-	  console.log(data)
-	  let incidentObj = {
-		  "date_of_incident": getISOfromDatepicker(data.detainment_date),
-		  "location": data.detainment_location,
-		  //"is_disappearance": data.,
-		  "is_direct_testimony": (data.own_testimony === 'yes'),
-		  "discovery": data.discovery,
-		  "IncidentTranslation": [incidentTranslationObj]
-	  }
-
-	  let reportObj = {
-		  "name": data.victim_name,
-			"current_status": data.status,
-			"gender": data.gender,
-			"country": data.country,
-			"date_of_birth": getISOfromDatepicker(data.birth_date),
-		  "last_seen_place": data.detainment_location,
-		  "VictimTranslation": [victimTranslationObj],
-		  "Incident": [incidentObj]
-	  }
-	  return reportObj
-  }
+	const handleChange = (e, index) => {
+		let newObj = Object.assign({}, incidentData)
+		newObj[index][e.target.name] = e.target.value
+		setIncidentData(newObj)
+	}
 
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
-    nameRef.current.focus();
+		nameRef.current.focus()
   }, []);
 
   return (
@@ -158,14 +130,14 @@ const Submit = () => {
                 {errors.discovery &&
                   <p className="error">Discovery is required</p>}
               </div>
-			  <div className="row">
-			  	<label htmlFor="language"> Language </label>
+			  			<div className="row">
+			  				<label htmlFor="language"> Language </label>
                 <select
-				  id="language"
-				  name="language"
-				  ref={register}>
+								  id="language"
+								  name="language"
+								  ref={register}>
                   <option value="none"
-				    defaultValue>
+				    				defaultValue>
                     Select your language
                   </option>
                   {langs.map((item) => (
@@ -217,7 +189,7 @@ const Submit = () => {
                 {errors.victim_name &&
                   <p className="error">Victim's name is required</p>}
               </div>
-			  <div className="row">
+			  			<div className="row">
                 <label htmlFor="gender">Gender</label>
                 <input
                   id="gender"
@@ -271,15 +243,17 @@ const Submit = () => {
                   id="reason_for_detainment"
                   name="reason_for_detainment"
                   placeholder="Official or probable reason."
-                  ref={register}
+                  ref={register({ required: true })}
                 />
+							{errors.name &&
+								<p className="error">Detainment reason is required</p>}
               </div>
                <div className="row">
                 <label htmlFor="country">Country of Origin</label>
                 <select defaultValue="none"
 												id="country"
 												name="country"
-												ref={register}>
+												ref={register({ required: true })}>
                   <option value="none" disabled hidden>
                     Select a country
                   </option>
@@ -291,6 +265,8 @@ const Submit = () => {
                   </option>
                 ))}
               </select>
+							{errors.name &&
+								<p className="error">Country of Origin is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="detainment_location">Location of Detainment</label>
@@ -298,8 +274,10 @@ const Submit = () => {
                   id="detainment_location"
                   name="detainment_location"
                   placeholder="Location where victim  was detained.  Enter unknown if you don't know."
-                  ref={register}
+                  ref={register({ required: true })}
                 />
+							{errors.name &&
+								<p className="error">Detainment Location is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="location">Current Location</label>
@@ -307,17 +285,32 @@ const Submit = () => {
                   id="location"
                   name="location"
                   placeholder="Where the victim is now. Enter unknown, if you don't know."
-                  ref={register}
+                  ref={register({ required: true })}
                 />
+							{errors.name &&
+								<p className="error">Current location is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="status">Current Status</label>
-                <textarea
-                  id="status"
-                  name="status"
-                  placeholder="Any information about the victim's current status. Key terms include disappeared, imprisoned, labor camp, released, emigrated, deceased."
-                  ref={register}
-                />
+								<select
+									id='status'
+									name='status'
+									ref={register({ required: true })}>
+								<option
+									key={'sel'}
+									value='All'>
+									Select Status
+								</option>
+								{statuses.map(item => (
+									<option
+										key={item}
+										value={item}>
+										{item}
+									</option>
+								))}
+								</select>
+							{errors.name &&
+								<p className="error">Status is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="additional">Additional Information</label>
@@ -325,7 +318,6 @@ const Submit = () => {
                   id="additional"
                   name="additional"
                   placeholder="Any additional information including links to video testimonies, news articles or videos."
-                  ref={register}
                 />
               </div>
               <div className="row">
@@ -335,7 +327,6 @@ const Submit = () => {
                   name="photo"
                   type="file"
                   accept="image/*"
-                  ref={register}
                 />
               </div>
               <div className="row">
@@ -348,9 +339,67 @@ const Submit = () => {
                   type="file"
                   accept="image/*,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                   multiple
-                  ref={register}
                 />
               </div>
+							<h1> Incidents </h1>
+							{incidents.map(item => (
+								<div
+									key={item}>
+									<div className='row'>
+										<button
+											onClick={(e) => deleteIncident(e, item)}
+											className='incident-delete-button'>
+											Delete Incident </button>
+										<label htmlFor="incident_date">Date of Incident*</label>
+										<input
+											type="date"
+											id={"date_of_incident"}
+											name={"date_of_incident"}
+											value={incidentData[item]['date_of_incident']}
+											onChange={(e) => handleChange(e, item)}
+										  ref={register({ required: true })}/>
+										{errors.name &&
+											<p className="error">Date is required</p>}
+									</div>
+									<div className='row'>
+										<label htmlFor='incident_location'> Incident Location </label>
+										<input
+											id={"incident_location"}
+											name={"incident_location"}
+											value={incidentData[item]['incident_location']}
+											onChange={(e) => handleChange(e, item)}
+											placeholder="Location of the incident."
+											ref={register({ required: true })}/>
+										{errors.name &&
+											<p className="error">Location is required</p>}
+									</div>
+									<div className='row'>
+										<label htmlFor='incident_narrative'> Incident Narrative </label>
+										<textarea
+											id={"incident_narrative"}
+											name={"incident_narrative"}
+											value={incidentData[item]['incident_narrative']}
+											onChange={(e) => handleChange(e, item)}
+											placeholder="Narrative of the incident."
+											ref={register({ required: true })}/>
+										{errors.name &&
+											<p className="error">Narrative is required</p>}
+									</div>
+									<div className='row'>
+										<label htmlFor='incident_media'> Additional Media </label>
+										<textarea
+											id={"incident_media"}
+											name={"incident_media"}
+											value={incidentData[item]['incident_media']}
+											onChange={(e) => handleChange(e, item)}
+											placeholder="Images or videos relating to the incident."
+											ref={register({ required: true })}/>
+									</div>
+								</div>
+							))}
+							<div className='row'>
+								<button onClick={(e) => addIncident(e)} className='btn-left'> Add Incident </button>
+							</div>
               <div className="row">
                 <button type="submit" className="btn">Submit</button>
               </div>
