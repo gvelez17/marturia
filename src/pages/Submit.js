@@ -30,7 +30,7 @@ const Submit = () => {
 
   const handleFormSubmit = (form) => {
 		let reportObj = constructReportObj(form)
-
+		console.log(reportObj)
 	  fetch(process.env.REACT_APP_API_BASE + 'reports', {
 		  method: "POST",
 		  headers: contentTypeHeaders(),
@@ -44,8 +44,8 @@ const Submit = () => {
 				alert('invalid request')
 			} else if(data.status === 201) {
 				//report created, want to redirect to success screens
-				submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
-				submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
+				//submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
+				//submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
 			} else {
 				//something went wrong
 				alert('something went wrong')
@@ -318,6 +318,7 @@ const Submit = () => {
                   id="additional"
                   name="additional"
                   placeholder="Any additional information including links to video testimonies, news articles or videos."
+				  ref={register({ required: false })}
                 />
               </div>
               <div className="row">

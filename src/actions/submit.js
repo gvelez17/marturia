@@ -70,8 +70,10 @@ export const constructReportObj = (data) => {
 	  "language": data.language,
 	  "gender": data.gender,
 	  "nationality": data.country,
-	  "current_status": data.status,
-	  "languagues_spoken": data.language
+//	  "current_status": data.status,
+	  "languagues_spoken": data.language,
+	  "about_the_victim": data.about,
+	  "additional_information": data.additional
   }
 
   console.log(data)
@@ -82,6 +84,18 @@ export const constructReportObj = (data) => {
     "discovery" : data.discovery,
     "is_direct_testimony": (data.own_testimony === 'yes')
 	}
+	
+	let incidentTranslationObj = {
+		"language" : "en",
+		"narrative_of_incident" : data.incident_narrative
+		
+	}
+	let incidentObj = {
+		"date_of_incident" : getISOfromDatepicker(data.date_of_incident),
+		"location" : data.incident_location,
+		"IncidentTranslation" : [incidentTranslationObj]
+				
+	}
 
   let reportObj = {
 	  "name": data.victim_name,
@@ -89,10 +103,11 @@ export const constructReportObj = (data) => {
 		"gender": data.gender,
 		"country": data.country,
 		"date_of_birth": getISOfromDatepicker(data.birth_date),
+	  "last_seen_date": getISOfromDatepicker(data.detainment_date),
 	  "last_seen_place": data.detainment_location,
 		"Report": reporterInfoObj,
 	  "VictimTranslation": [victimTranslationObj],
-	  "Incident": []
+	  "Incident": [incidentObj]
   }
   return reportObj
 }
