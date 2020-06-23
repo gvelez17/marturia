@@ -19,9 +19,9 @@ const ViewItem = (props) => {
 		info = (
 			<Motion
 				defaultStyle={{opacity: 0, height: 0}}
-				style={{opacity: spring(1), height: spring(document.getElementById(props.category).clientHeight)}}>
+				style={{opacity: spring(1)}}>
 				{style => (
-					<div style={{opacity: style.opacity, height: style.height}} name={props.category}>
+					<div style={{opacity: style.opacity}} name={props.category}>
 						{props.info}
 					</div>
 				)}
