@@ -8,7 +8,7 @@ import {constructReportObj, submitVictimTranslation, submitAllIncidents} from '.
 import {getISOfromDatepicker} from '../utils/utils'
 import data from '../data/countries.json';
 
-const statuses = ["Disappeared", "Imprisoned", "Labor Camp", "Released", "Emigrated", "Deceased"]
+const statuses = ["Disappeared", "Imprisoned", "Labor Camp", "Released", "Emigrated", "Injured", "Deceased"]
 
 const Submit = () => {
 	const createIncidentObj = () => {
@@ -129,26 +129,7 @@ const Submit = () => {
                 />
                 {errors.discovery &&
                   <p className="error">Discovery is required</p>}
-              </div>
-			  			<div className="row">
-			  				<label htmlFor="language"> Language </label>
-                <select
-								  id="language"
-								  name="language"
-								  ref={register}>
-                  <option value="none"
-				    				defaultValue>
-                    Select your language
-                  </option>
-                  {langs.map((item) => (
-                  <option
-                    key={item.code + item.name}
-                    value={item.code}>
-                    {item.name}
-                  </option>
-                ))}
-                </select>
-              </div>
+              </div>			
               <div className="row radio">
                 <label>Is this your testimony?*</label>
                 <div className="radio-buttons">
@@ -218,36 +199,16 @@ const Submit = () => {
                   <p className="error">About is required</p>}
               </div>
 							<div className="row">
-                <label htmlFor="detainment_date">Date of Detainment*</label>
+                <label htmlFor="detainment_date">Last Seen Date*</label>
                 <input type="date"
 											 id="detainment_date"
 											 name="detainment_date"
 											 ref={register({ required: true })}/>
                 {errors.detainment_date &&
-                  <p className="error">Detainment Date is required</p>}
+                  <p className="error">Last Seen Date is required</p>}
               </div>
-              <div className="row">
-                <label htmlFor="detainment">Detainment*</label>
-                <textarea
-                  id="detainment"
-                  name="detainment"
-                  placeholder="Information about when the victim was detained. Approximate dates are allowed."
-                  ref={register({ required: true })}
-                />
-                {errors.detainment &&
-                  <p className="error">Detainment is required</p>}
-              </div>
-              <div className="row">
-                <label htmlFor="reason_for_detainment">Reason for Detainment</label>
-                <textarea
-                  id="reason_for_detainment"
-                  name="reason_for_detainment"
-                  placeholder="Official or probable reason."
-                  ref={register({ required: true })}
-                />
-							{errors.name &&
-								<p className="error">Detainment reason is required</p>}
-              </div>
+            
+           
                <div className="row">
                 <label htmlFor="country">Country of Origin</label>
                 <select defaultValue="none"
@@ -268,16 +229,35 @@ const Submit = () => {
 							{errors.name &&
 								<p className="error">Country of Origin is required</p>}
               </div>
+			   <div className="row">
+			  				<label htmlFor="language"> Language </label>
+                <select
+								  id="language"
+								  name="language"
+								  ref={register}>
+                  <option value="none"
+				    				defaultValue>
+                    Select your language
+                  </option>
+                  {langs.map((item) => (
+                  <option
+                    key={item.code + item.name}
+                    value={item.code}>
+                    {item.name}
+                  </option>
+                ))}
+                </select>
+              </div>
               <div className="row">
-                <label htmlFor="detainment_location">Location of Detainment</label>
+                <label htmlFor="detainment_location">Last Seen Place</label>
                 <textarea
                   id="detainment_location"
                   name="detainment_location"
-                  placeholder="Location where victim  was detained.  Enter unknown if you don't know."
+                  placeholder="Location where victim was seen the last time.  Enter unknown if you don't know."
                   ref={register({ required: true })}
                 />
 							{errors.name &&
-								<p className="error">Detainment Location is required</p>}
+								<p className="error">Last Seen Place is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="location">Current Location</label>
@@ -346,11 +326,7 @@ const Submit = () => {
 							{incidents.map(item => (
 								<div
 									key={item}>
-									<div className='row'>
-										<button
-											onClick={(e) => deleteIncident(e, item)}
-											className='incident-delete-button'>
-											Delete Incident </button>
+									<div className='row'>									
 										<label htmlFor="incident_date">Date of Incident*</label>
 										<input
 											type="date"
@@ -398,9 +374,7 @@ const Submit = () => {
 									</div>
 								</div>
 							))}
-							<div className='row'>
-								<button onClick={(e) => addIncident(e)} className='btn-left'> Add Incident </button>
-							</div>
+						
               <div className="row">
                 <button type="submit" className="btn">Submit</button>
               </div>
