@@ -1,0 +1,9 @@
+{
+	"status": [		
+		"Unclear",
+		"Healthy",		
+		"Problematic",
+		"Critical",
+		"Deceased"
+	]
+}

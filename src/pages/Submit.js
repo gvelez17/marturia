@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import Popup from 'reactjs-popup';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
 import './Submit.scss';
@@ -7,10 +8,18 @@ import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
 import {constructReportObj, submitVictimTranslation, submitAllIncidents} from '../actions/submit'
 import {getISOfromDatepicker} from '../utils/utils'
 import data from '../data/countries.json';
+import statuses from '../data/status.json';
+import healthStatuses from '../data/health_status.json';
 
-const statuses = ["Disappeared", "Imprisoned", "Labor Camp", "Released", "Emigrated", "Injured", "Deceased"]
+const filterAllStatus = (array) => {
+    const index = array.indexOf("All");
+	let filteredArray = array.slice();
+	filteredArray.splice(index, 1);
+	return filteredArray;
+};
+const statusWithoutAll = filterAllStatus(statuses.status);
 
-const Submit = () => {
+const Submit = (props) => {
 	const createIncidentObj = () => {
 		return {
 			"date_of_incident": null,
@@ -23,10 +32,35 @@ const Submit = () => {
 
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
+	const [showRedirectModal, setShowRedirectModal] = useState(false)
+	const [victimID, setVictimID] = useState(-1)
 	const [incidents, setIncidents] = useState([0])
 	const [incidentData, setIncidentData] = useState({
 		0: createIncidentObj()
 	})
+
+
+const RedirectToView = () => {
+	props.history.push('/view/'+victimID)
+}
+
+const Modal = () => {
+  const CloseModal = () => {setShowRedirectModal(false)};
+  
+  return (
+  <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={showRedirectModal}>
+      <div className="modal">
+            <a className="close" onClick={RedirectToView} >
+              &times;
+            </a>
+			Successfully submitted a victim, you will be redirected to the stored entry. 
+	   </div>
+  </Popup>
+  )
+   
+};
+
+
 
   const handleFormSubmit = (form) => {
 		let reportObj = constructReportObj(form)
@@ -46,6 +80,8 @@ const Submit = () => {
 				//report created, want to redirect to success screens
 				//submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
 				//submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
+				setShowRedirectModal(true)
+				setVictimID(data.victim.ID)
 			} else {
 				//something went wrong
 				alert('something went wrong')
@@ -81,14 +117,14 @@ const Submit = () => {
 		newObj[index][e.target.name] = e.target.value
 		setIncidentData(newObj)
 	}
-
+  
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
 		nameRef.current.focus()
   }, []);
 
   return (
-    <MainLayout>
+    <MainLayout>	
       <div className="submit page">
         <div className="wrapper">
           <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -281,7 +317,7 @@ const Submit = () => {
 									value='All'>
 									Select Status
 								</option>
-								{statuses.map(item => (
+								{statusWithoutAll.map(item => (
 									<option
 										key={item}
 										value={item}>
@@ -291,6 +327,37 @@ const Submit = () => {
 								</select>
 							{errors.name &&
 								<p className="error">Status is required</p>}
+              </div>
+			  <div className="row">
+                <label htmlFor="status">Health Status</label>
+								<select
+									id='health_status'
+									name='health_status'
+									ref={register({ required: true })}>
+								<option
+									key={'sel'}
+									value='All'>
+									Select Status
+								</option>
+								{healthStatuses.status.map(item => (
+									<option
+										key={item}
+										value={item}>
+										{item}
+									</option>
+								))}
+								</select>
+							{errors.name &&
+								<p className="error">Health Status is required</p>}
+              </div>
+			   <div className="row">
+                <label htmlFor="health_issues">Health Issues</label>
+                <textarea
+                  id="health_issues"
+                  name="health_issues"
+                  placeholder="List known health issues of the victim."
+				  ref={register({ required: false })}
+                />
               </div>
               <div className="row">
                 <label htmlFor="additional">Additional Information</label>
@@ -380,9 +447,14 @@ const Submit = () => {
               </div>
             </section>
           </form>
+		  <Modal />
         </div>
       </div>
+
+
     </MainLayout>
+	
+
   );
 };
 
