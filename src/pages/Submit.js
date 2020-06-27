@@ -234,19 +234,9 @@ const Modal = () => {
                 {errors.about &&
                   <p className="error">About is required</p>}
               </div>
-							<div className="row">
-                <label htmlFor="detainment_date">Last Seen Date*</label>
-                <input type="date"
-											 id="detainment_date"
-											 name="detainment_date"
-											 ref={register({ required: true })}/>
-                {errors.detainment_date &&
-                  <p className="error">Last Seen Date is required</p>}
-              </div>
-            
-           
+		    
                <div className="row">
-                <label htmlFor="country">Country of Origin</label>
+                <label htmlFor="country">Country of Origin*</label>
                 <select defaultValue="none"
 												id="country"
 												name="country"
@@ -262,11 +252,11 @@ const Modal = () => {
                   </option>
                 ))}
               </select>
-							{errors.name &&
+							{errors.country &&
 								<p className="error">Country of Origin is required</p>}
               </div>
 			   <div className="row">
-			  				<label htmlFor="language"> Language </label>
+			  				<label htmlFor="language"> Language</label>
                 <select
 								  id="language"
 								  name="language"
@@ -284,15 +274,35 @@ const Modal = () => {
                 ))}
                 </select>
               </div>
+			   <div className="row">
+                <label htmlFor="profession">Profession</label>
+                <input
+                  id="profession"
+                  name="profession"
+                  type="text"
+                  ref={(input) => {
+                    register(input, { required: false });                    
+                  }}
+                />             
+              </div>
+			  <div className="row">
+                <label htmlFor="detainment_date">Last Seen Date*</label>
+                <input type="date"
+											 id="detainment_date"
+											 name="detainment_date"
+											 ref={register({ required: true })}/>
+                {errors.detainment_date &&
+                  <p className="error">Last Seen Date is required</p>}
+              </div>
               <div className="row">
-                <label htmlFor="detainment_location">Last Seen Place</label>
+                <label htmlFor="detainment_location">Last Seen Place*</label>
                 <textarea
                   id="detainment_location"
                   name="detainment_location"
                   placeholder="Location where victim was seen the last time.  Enter unknown if you don't know."
                   ref={register({ required: true })}
                 />
-							{errors.name &&
+							{errors.detainment_location &&
 								<p className="error">Last Seen Place is required</p>}
               </div>
               <div className="row">
@@ -301,13 +311,13 @@ const Modal = () => {
                   id="location"
                   name="location"
                   placeholder="Where the victim is now. Enter unknown, if you don't know."
-                  ref={register({ required: true })}
+                  ref={register({ required: false })}
                 />
-							{errors.name &&
+							{errors.location &&
 								<p className="error">Current location is required</p>}
               </div>
               <div className="row">
-                <label htmlFor="status">Current Status</label>
+                <label htmlFor="status">Current Status*</label>
 								<select
 									id='status'
 									name='status'
@@ -325,11 +335,11 @@ const Modal = () => {
 									</option>
 								))}
 								</select>
-							{errors.name &&
+							{errors.status &&
 								<p className="error">Status is required</p>}
               </div>
 			  <div className="row">
-                <label htmlFor="status">Health Status</label>
+                <label htmlFor="status">Health Status*</label>
 								<select
 									id='health_status'
 									name='health_status'
@@ -347,7 +357,7 @@ const Modal = () => {
 									</option>
 								))}
 								</select>
-							{errors.name &&
+							{errors.health_status &&
 								<p className="error">Health Status is required</p>}
               </div>
 			   <div className="row">
@@ -402,11 +412,11 @@ const Modal = () => {
 											value={incidentData[item]['date_of_incident']}
 											onChange={(e) => handleChange(e, item)}
 										  ref={register({ required: true })}/>
-										{errors.name &&
+										{errors.incident_date &&
 											<p className="error">Date is required</p>}
 									</div>
 									<div className='row'>
-										<label htmlFor='incident_location'> Incident Location </label>
+										<label htmlFor='incident_location'> Incident Location*</label>
 										<input
 											id={"incident_location"}
 											name={"incident_location"}
@@ -414,11 +424,11 @@ const Modal = () => {
 											onChange={(e) => handleChange(e, item)}
 											placeholder="Location of the incident."
 											ref={register({ required: true })}/>
-										{errors.name &&
+										{errors.incident_location &&
 											<p className="error">Location is required</p>}
 									</div>
 									<div className='row'>
-										<label htmlFor='incident_narrative'> Incident Narrative </label>
+										<label htmlFor='incident_narrative'> Incident Narrative*</label>
 										<textarea
 											id={"incident_narrative"}
 											name={"incident_narrative"}
@@ -426,18 +436,18 @@ const Modal = () => {
 											onChange={(e) => handleChange(e, item)}
 											placeholder="Narrative of the incident."
 											ref={register({ required: true })}/>
-										{errors.name &&
+										{errors.incident_narrative &&
 											<p className="error">Narrative is required</p>}
 									</div>
 									<div className='row'>
-										<label htmlFor='incident_media'> Additional Media </label>
+										<label htmlFor='incident_media'> Additional Media</label>
 										<textarea
 											id={"incident_media"}
 											name={"incident_media"}
 											value={incidentData[item]['incident_media']}
 											onChange={(e) => handleChange(e, item)}
 											placeholder="Images or videos relating to the incident."
-											ref={register({ required: true })}/>
+											ref={register({ required: false })}/>
 									</div>
 								</div>
 							))}

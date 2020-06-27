@@ -70,7 +70,9 @@ export const constructReportObj = (data) => {
 	  "language": data.language,
 	  "gender": data.gender,
 	  "nationality": data.country,
-//	  "current_status": data.status,
+	  "health_status": data.health_status,
+	  "health_issues": data.health_issues,
+	  "profession": data.profession,
 	  "languagues_spoken": data.language,
 	  "about_the_victim": data.about,
 	  "additional_information": data.additional
