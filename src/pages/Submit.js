@@ -50,10 +50,11 @@ const Modal = () => {
   return (
   <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={showRedirectModal}>
       <div className="modal">
-            <a className="close" onClick={RedirectToView} >
+            Successfully submitted a victim <br/>
+			You will be redirected to the stored profile
+			<a className="close" onClick={RedirectToView} >
               &times;
-            </a>
-			Successfully submitted a victim, you will be redirected to the stored entry. 
+            </a>			
 	   </div>
   </Popup>
   )
