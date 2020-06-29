@@ -33,7 +33,7 @@ const ViewSidebar = (props) => {
 					<b> Country </b>
 					<p> {props.data.country} </p>
 					<b> Gender </b>
-					<p> {props.data.abc} </p>
+					<p> {props.data.gender} </p>
 					<b> Last Seen Date </b>
 					<p> {getMMDDYYYYfromISO(props.data.last_seen_date)} </p>
 					<b> Last Seen Place </b>

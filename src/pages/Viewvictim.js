@@ -16,6 +16,7 @@ const categories = [
 const ViewVictim = (props) => {
 	const [vicData, setVicData] = useState(null);
 	const [incidents, setIncidents] = useState(null);
+	const [translations, setTranslations] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [victimDNE, setVictimDNE] = useState(false);
 	const [shown, setShown] = useState({
@@ -53,6 +54,20 @@ const ViewVictim = (props) => {
 			}
 		})
 		.catch(err => console.log(err))
+		
+		fetch(process.env.REACT_APP_API_BASE + 'victim-translations?idvictim=' + String(props.match.params.id))
+		.then(res => res.json())
+		.then(data => {
+			if(data.status === 200) {
+				console.log(data)
+				setTranslations(data.translations)
+			} else if(data.status === 400) {
+				//params error
+			} else {
+				//something went wrong
+			}
+		})
+		.catch(err => console.log(err))
 	}, [])
 
 	let content;
@@ -71,7 +86,8 @@ const ViewVictim = (props) => {
 							category={"Victim Details"}
 							shown={shown}
 							setShown={setShown}
-							info={<VictimDetails/>}/>
+							info={<VictimDetails data={translations}/>}							
+							/>
 						<ViewVictimItem
 						 	category={"Victim Media"}
 							shown={shown}
