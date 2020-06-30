@@ -97,7 +97,7 @@ const ViewVictim = (props) => {
 						 	category={"Incident List"}
 							shown={shown}
 							setShown={setShown}
-							info={<Incident/>}/>
+							info={<Incident data={incidents} />}/>
 					</div>
 					<ViewSidebar data={vicData}/>
 				</div>

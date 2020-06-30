@@ -1,22 +1,23 @@
 import React, { useRef, useEffect } from 'react';
 import './ViewComponent.scss';
+import IncidentItem from '../components/IncidentItem';
 
 const Incident = (props) => {
 
+	if(!props.data)
+		return (
+		<div className='incident-container'>
+			<p> Loading ... </p>
+		</div>
+		)
 
+	const incidentItems = props.data.map ( (incident) => 
+		<IncidentItem key={incident.ID} data={incident}/>
+	)
 	return (
 		<div className='incident-container'>
-			<div className='incident-top'>
-				<b> Date of Incident: </b>
-				<p> Location: </p>
-				<p> Disappearance: </p>
-				<p> Direct Testimony: </p>
-				<p> Discovery: </p>
-			</div>
-			<div>
-				<p> Narrative of Incident: </p>
-				<p> Current Status Summary: </p>
-			</div>
+		{incidentItems}
+			
 		</div>
 	)
 }
