@@ -101,6 +101,9 @@ export const constructReportObj = (data) => {
 
   let reportObj = {
 	  "name": data.victim_name,
+	  "legal_name": data.legal_name,
+	  "aliases": data.aliases,
+	  "place_of_birth" :data.place_of_birth,
 		"current_status": data.status,
 		"gender": data.gender,
 		"country": data.country,

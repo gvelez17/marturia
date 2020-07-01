@@ -207,15 +207,43 @@ const Modal = () => {
                 {errors.victim_name &&
                   <p className="error">Victim's name is required</p>}
               </div>
-			  			<div className="row">
-                <label htmlFor="gender">Gender</label>
+			   <div className="row">
+                <label htmlFor="victim_name">Legal Name</label>
+                <input
+                  id="legal_name"
+                  name="legal_name"
+                  type="text"
+                  ref={register({ required: false })}
+                />                
+              </div>
+			  <div className="row">
+                <label htmlFor="victim_name">Aliases</label>
+                <input
+                  id="aliases"
+                  name="aliases"
+                  type="text"
+                  ref={register({ required: false })}
+                />                
+              </div>
+			  <div className="row">
+                <label htmlFor="gender">Gender*</label>
                 <input
                   id="gender"
                   name="gender"
                   ref={register({ required: true })}
+				  />
+				  {errors.gender &&
+                  <p className="error">Gender is required</p>}                
+              </div>
+			  <div className="row">
+                <label htmlFor="gender">Place of Birth</label>
+                <input
+                  id="place_of_birth"
+                  name="place_of_birth"
+                  ref={register({ required: false })}
                 />
               </div>
-							<div className="row">
+			<div className="row">
                 <label htmlFor="birth_date">Date of Birth*</label>
                 <input type="date"
 											 id="birth_date"

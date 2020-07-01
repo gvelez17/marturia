@@ -23,7 +23,7 @@ const ViewSidebar = (props) => {
 				</div>
 				<div className='sidebar-content'>
 					<b> Place of Birth </b>
-					<p>  </p>
+					<p>  {props.data.place_of_birth} </p>
 					<b> Date of Birth </b>
 					<p> {getMMDDYYYYfromISO(props.data.date_of_birth)} </p>
 					<b> Legal Name </b>

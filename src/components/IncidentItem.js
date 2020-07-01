@@ -40,7 +40,7 @@ const IncidentItem = (props) => {
 			<div key={incTrans.ID}>
 				<p> Language: {langs.filter(lang => lang.code === incTrans.language)[0].name} </p>
 				<p> Narrative of Incident: {incTrans.narrative_of_incident} </p>
-				<p> Current Status Summary: {incTrans.current_status_summary}</p>
+{/*				<p> Current Status Summary: {incTrans.current_status_summary}</p>*/}
 			</div>
 			)
 		content =  (
@@ -48,9 +48,9 @@ const IncidentItem = (props) => {
 			<div className='incident-top'>
 				<p> Date of Incident: {props.data.date_of_incident}</p>
 				<p> Location: {props.data.location} </p>
-				<p> Disappearance: {props.data.is_disappearance}</p>
+{/*				<p> Disappearance: {props.data.is_disappearance}</p>
 				<p> Direct Testimony: </p>
-				<p> Discovery: </p>
+				<p> Discovery: </p> */}
 			</div>
 			{incTranslationDivs}
 			
