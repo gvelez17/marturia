@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.scss';
+import {tokenIsStillValid} from '../utils/utils';
 
 const Header = () => {
   return (
@@ -11,10 +12,12 @@ const Header = () => {
           <ul>
             <li>
               <NavLink to="/victims" activeClassName="active">Victims</NavLink>
-            </li>
-            <li>
+            </li>            
+			{tokenIsStillValid() && 
+			<li>
               <NavLink to="/submit" activeClassName="active">Submit</NavLink>
             </li>
+			}			
             <li>
               <NavLink exact to="/" activeClassName="active">About</NavLink>
             </li>
