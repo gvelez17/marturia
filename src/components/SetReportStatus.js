@@ -19,16 +19,33 @@ const SetReportStatus = (props) => {
 	const [reports, setReports] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [reloadToggle, setReloadToggle] = useState(false);
-	const [selectedRows, setSelectedRows] = useState([]);
+	const [selectedRows, setSelectedRows] = useState([]);		
+	const [toggleClearRows, setToggleClearRows] = useState(false);
+	
 
-	const toggleReportState = (reportId) => {
-		fetch(process.env.REACT_APP_API_BASE + 'reports/'+reportId, {
+	const checkAllUpdatesDone = (updateDoneMap) => {
+		const arr = Array.from(updateDoneMap.values())
+		const alldone = arr.filter(value => value==false).length==0
+		//console.log("alldone: "+alldone)
+		// if all update calls have returned reload data from backend to update table
+		if(alldone)
+		{
+			setToggleClearRows(!toggleClearRows)
+			setReloadToggle(!reloadToggle)
+		}
+	}
+		
+	
+	const toggleReportState = (report,updateDoneMap) => {
+		
+		fetch(process.env.REACT_APP_API_BASE + 'reports/'+report.ID, {
 			method: 'PATCH',
 			headers: authorizationHeaders()
 		})
 		.then(res => res.json())
-		.then(data => {
-			setIsLoading(false);
+		.then(data => {			
+			updateDoneMap.set(report.ID,true)
+			checkAllUpdatesDone(updateDoneMap)
 			if(data.status === 400) {
 				//params error				
 			} else if(data.status === 200) {
@@ -43,14 +60,16 @@ const SetReportStatus = (props) => {
 		})
 		.catch(err => console.log(err))
 	}
-	const deleteReportData = (reportId) => {
-		fetch(process.env.REACT_APP_API_BASE + 'reports/'+reportId, {
+	const deleteReportData = (report,updateDoneMap) => {
+		report.updated=false
+		fetch(process.env.REACT_APP_API_BASE + 'reports/'+report.ID, {
 			method: 'DELETE',
 			headers: authorizationHeaders()
 		})
 		.then(res => res.json())
 		.then(data => {
-			setIsLoading(false);
+			updateDoneMap.set(report.ID,true)
+			checkAllUpdatesDone(updateDoneMap)
 			if(data.status === 400) {
 				//params error				
 			} else if(data.status === 200) {
@@ -99,17 +118,18 @@ const SetReportStatus = (props) => {
 	}
 	
 	const deleteReports = () => {
-		selectedRows.forEach( sr => deleteReportData(sr.ID))
-		setSelectedRows([])
-		setReloadToggle(!reloadToggle)		
+		let updateDoneMap = new Map()
+		selectedRows.forEach( sr => updateDoneMap.set(sr.ID,false))
+		selectedRows.forEach( sr => deleteReportData(sr,updateDoneMap))
 	}
 	
 	const toggleReportStates = () => {
-		selectedRows.forEach( sr => toggleReportState(sr.ID))
-		setSelectedRows([])
-		setReloadToggle(!reloadToggle)
+		let updateDoneMap = new Map()
+		selectedRows.forEach( sr => updateDoneMap.set(sr.ID,false))
+		selectedRows.forEach( sr => toggleReportState(sr,updateDoneMap))		
 	}
-	
+
+		
 	useEffect(() => {
 			fetchReportData();		
 	}, [reloadToggle])
@@ -213,6 +233,7 @@ const SetReportStatus = (props) => {
 				pagination  
 				onSelectedRowsChange={updateState}
 				customStyles={customStyles}
+				clearSelectedRows={toggleClearRows}
 				/>
 				
 			{deletePopupInstance}
