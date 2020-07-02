@@ -4,6 +4,7 @@ import DeleteUser from '../components/Admindeleteuser';
 import ViewAllUsers from '../components/Viewallusers';
 import LookupUser from '../components/Adminviewuser';
 import CreateUser from '../components/Createuser';
+import SetReportStatus from '../components/SetReportStatus';
 
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
     path: "/lookupuser",
     sidebar: () => <div>Lookup User</div>,
     main: () => <LookupUser/>
+  },
+  {
+    path: "/setreportstatus",
+    sidebar: () => <div>Manage Reports</div>,
+    main: () => <SetReportStatus/>
   }
 ];
 
@@ -48,6 +54,9 @@ return(
             </li>
             <li>
               <Link to="/deleteuser">Delete User</Link>
+            </li>
+			<li>
+              <Link to="/setreportstatus">Manage Reports</Link>
             </li>
           </ul>
 

@@ -23,7 +23,9 @@
     "react-scripts": "3.4.0",
     "reactjs-popup": "^1.5.0",
     "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "styled-components": "^5.1.1",
+    "react-data-table-component": "^6.9.3"
   },
   "scripts": {
     "start": "react-scripts start",
