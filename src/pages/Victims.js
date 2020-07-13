@@ -20,7 +20,8 @@ const Victims = (props) => {
 
 
 	const constructQStr = (name, country, status) => {
-		let qstr = '?';
+		let qstr = '?report-state=published&';
+
 
 		if(name) {
 			qstr += "victim-name=" + name + "&";
@@ -115,7 +116,7 @@ const Victims = (props) => {
 									value={status}>
 								<option
 									key={'sel'}
-									value='All'>
+									value='all'>
 									Select Status
 								</option>
 								{statuses.status.map(item => (
