@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './Header.scss';
 import {tokenIsStillValid} from '../utils/utils';
 
@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div className="header-container">
       <header className="main-header">
-        <div className="logo"><p>Testimony Database</p></div>
+        <Link className="logo" to="/"><p>Testimony Database</p></Link>
         <nav className="main-navigation">
           <ul>
             <li>
