@@ -11,10 +11,15 @@ function Home() {
     <MainLayout>
       <div className="home page">
         <div className="wrapper">
-          <p><span className="title">The Testimony Database</span> is 
-          there were doors all round the hall, but they were all locked; and when Alice had been all the way down one side and up the other, trying every door, she walked sadly down the middle, wondering how she was ever to get out again.</p>
-          <p>Suddenly she came upon a little three-legged table, all made of solid glass; there was nothing on it except a tiny golden key, and Alice’s first thought was that it might belong to one of the doors of the hall; but, alas! either the locks were too large, or the key was too small, but at any rate it would not open any of them. However, on the second time round, she came upon a low curtain she had not noticed before, and behind it was a little door about fifteen inches high: she tried the little golden key in the lock, and to her great delight it fitted!</p>
-          <p>Alice opened the door and found that it led into a small passage, not much larger than a rat-hole: she knelt down and looked along the passage into the loveliest garden you ever saw. How she longed to get out of that dark hall, and wander about among those beds of bright flowers and those cool fountains, but she could not even get her head through the doorway; “and even if my head would go through,” thought poor Alice, “it would be of very little use without my shoulders. Oh, how I wish I could shut up like a telescope! I think I could, if I only knew how to begin.”</p>
+          <p>
+		  <span className="title">The Testimony Database</span><br/><br/>
+		  <u>Mission</u><br/><br/>
+		  
+		  Providing free, secure, easy to use, online robust technology to help identify missing persons and loved ones, living or deceased. No missing person should be left unaccounted for. Missing someone and not being able to see them is one of the worst feelings. <br/><br/> This website aims to connect families to loved ones who have been reported missing or deceased. Our mission is to subdue the pain of family members who have suffered the loss or disappearance of their loved ones. <br/><br/>
+		We hope that you put your sincere trust in us and will let us help you find the people you hold close to your heart. Simply fill out the information in the “Victim”, tab to search for the missing person, or report a missing person by filling out the information in the “Submit” tab. With this tool we hope that your dearest ones will be found. 
+
+         
+		  </p>
         </div>
       </div>
     </MainLayout>

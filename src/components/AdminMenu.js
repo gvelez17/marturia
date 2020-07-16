@@ -8,11 +8,6 @@ import SetReportStatus from '../components/SetReportStatus';
 
 
 const routes = [
- {
-    path: "/deleteuser",
-    sidebar: () => <div>Delete User</div>,
-    main: () => <DeleteUser/>
-  },
   {
     path: "/createuser",
     sidebar: () => <div>Create User</div>,
@@ -22,11 +17,6 @@ const routes = [
     path: "/viewallusers",
     sidebar: () => <div>View All Users</div>,
     main: () => <ViewAllUsers/>
-  },
-  {
-    path: "/lookupuser",
-    sidebar: () => <div>Lookup User</div>,
-    main: () => <LookupUser/>
   },
   {
     path: "/setreportstatus",
@@ -45,16 +35,10 @@ return(
           <ul>
             <li>
               <Link to="/createuser">Create User</Link>
-            </li>
-            <li>
-              <Link to="/lookupuser">View User</Link>
-            </li>
+            </li>         
             <li>
               <Link to="/viewallusers">View All Users</Link>
-            </li>
-            <li>
-              <Link to="/deleteuser">Delete User</Link>
-            </li>
+            </li>           
 			<li>
               <Link to="/setreportstatus">Manage Reports</Link>
             </li>
