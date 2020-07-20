@@ -1,4 +1,6 @@
 export function getISOfromDatepicker(date) {
+	if(!date)
+		return null
 	let iso = "T00:00:00+00:00"
 	return date + iso
 }
@@ -18,7 +20,10 @@ export function getAge(date) {
 
 //checking to see if the token is expired
 export function tokenIsStillValid() {
-	let exp = Date.parse(localStorage.getItem('expiration'))
+	let expirationToken = localStorage.getItem('expiration')
+	if(!expirationToken || expirationToken ==="undefined")
+		return false
+	let exp = Date.parse(expirationToken)
 	let now = Date.now()
 	if(now > exp) {
 		return false

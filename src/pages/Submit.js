@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import { useForm } from 'react-hook-form';
 import MainLayout from '../components/MainLayout';
+import IncidentForm from '../components/IncidentForm';
 import './Submit.scss';
 import langs from '../data/languages.js';
 import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
@@ -20,24 +21,13 @@ const filterAllStatus = (array) => {
 const statusWithoutAll = filterAllStatus(statuses.status);
 
 const Submit = (props) => {
-	const createIncidentObj = () => {
-		return {
-			"date_of_incident": null,
-			"incident_location": '',
-			"is_disappearance": false,
-			"incident_narrative": '',
-			"incident_media": ''
-		}
-	}
+	
 
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
 	const [showRedirectModal, setShowRedirectModal] = useState(false)
 	const [victimID, setVictimID] = useState(-1)
-	const [incidents, setIncidents] = useState([0])
-	const [incidentData, setIncidentData] = useState({
-		0: createIncidentObj()
-	})
+
 
 
 const RedirectToView = () => {
@@ -68,7 +58,7 @@ const Modal = () => {
 		console.log(reportObj)
 	  fetch(process.env.REACT_APP_API_BASE + 'reports', {
 		  method: "POST",
-		  headers: contentTypeHeaders(),
+		  headers: authContentTypeHeaders(),
 		  body: JSON.stringify(reportObj)
 		})
 		.then(res => res.json())
@@ -91,33 +81,7 @@ const Modal = () => {
 		.catch(err => console.log(err))
   };
 
-	const addIncident = (e) => {
-		e.preventDefault()
-		let newObj = Object.assign({}, incidentData)
-		if(incidents.length === 0) {
-			newObj[0] = createIncidentObj()
-			setIncidentData(newObj)
-			return setIncidents([0])
-		}
-		let newIndex = incidents[incidents.length - 1] + 1
-		newObj[newIndex] = createIncidentObj()
-		setIncidentData(newObj)
-		setIncidents([...incidents, newIndex])
-	}
-
-	const deleteIncident = (e, index) => {
-		e.preventDefault()
-		let newObj = Object.assign({}, incidentData)
-		delete newObj[index]
-		setIncidentData(newObj)
-		setIncidents([...incidents.filter((val => val !== index))])
-	}
-
-	const handleChange = (e, index) => {
-		let newObj = Object.assign({}, incidentData)
-		newObj[index][e.target.name] = e.target.value
-		setIncidentData(newObj)
-	}
+	
   
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
@@ -428,59 +392,7 @@ const Modal = () => {
                   multiple
                 />
               </div>
-							<h1> Incidents </h1>
-							{incidents.map(item => (
-								<div
-									key={item}>
-									<div className='row'>									
-										<label htmlFor="incident_date">Date of Incident*</label>
-										<input
-											type="date"
-											id={"date_of_incident"}
-											name={"date_of_incident"}
-											value={incidentData[item]['date_of_incident']}
-											onChange={(e) => handleChange(e, item)}
-										  ref={register({ required: true })}/>
-										{errors.incident_date &&
-											<p className="error">Date is required</p>}
-									</div>
-									<div className='row'>
-										<label htmlFor='incident_location'> Incident Location*</label>
-										<input
-											id={"incident_location"}
-											name={"incident_location"}
-											value={incidentData[item]['incident_location']}
-											onChange={(e) => handleChange(e, item)}
-											placeholder="Location of the incident."
-											ref={register({ required: true })}/>
-										{errors.incident_location &&
-											<p className="error">Location is required</p>}
-									</div>
-									<div className='row'>
-										<label htmlFor='incident_narrative'> Incident Narrative*</label>
-										<textarea
-											id={"incident_narrative"}
-											name={"incident_narrative"}
-											value={incidentData[item]['incident_narrative']}
-											onChange={(e) => handleChange(e, item)}
-											placeholder="Narrative of the incident."
-											ref={register({ required: true })}/>
-										{errors.incident_narrative &&
-											<p className="error">Narrative is required</p>}
-									</div>
-									<div className='row'>
-										<label htmlFor='incident_media'> Additional Media</label>
-										<textarea
-											id={"incident_media"}
-											name={"incident_media"}
-											value={incidentData[item]['incident_media']}
-											onChange={(e) => handleChange(e, item)}
-											placeholder="Images or videos relating to the incident."
-											ref={register({ required: false })}/>
-									</div>
-								</div>
-							))}
-						
+			 <IncidentForm register={register} errors={errors}/>
               <div className="row">
                 <button type="submit" className="btn">Submit</button>
               </div>
