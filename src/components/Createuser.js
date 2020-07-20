@@ -24,7 +24,10 @@ const CreateUser = (props) => {
 			} else if(data.status === 201) {
 				//user created
 				alert('user successfully created')
-			} else {
+			}  else if(data.status === 403){
+				//access forbidden
+				alert('access forbidden');
+			}else {
 				//something went wrong
 				alert('something went wrong')
 			}

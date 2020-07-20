@@ -1,5 +1,5 @@
 import {authContentTypeHeaders} from './headers'
-import {getISOfromDatepicker} from '../utils/utils'
+import {getISOfromDatepicker, getMMDDYYYYfromISO} from '../utils/utils'
 export const submitMedia = (fileObj, id) => {
 }
 
@@ -57,6 +57,39 @@ export const submitAllIncidents = (incidentList, incidentData, victimID, languag
 	})
 }
 
+export const convertIncidentRestToFormData = (incidentArray) => {
+	return incidentArray.map ( incident => {
+	let incidentObj = {
+		"ID" : incident.ID,
+		"date_of_incident" : getMMDDYYYYfromISO(incident.date_of_incident),
+		"incident_location" : incident.location						
+	}
+	if(incident.IncidentTranslation && incident.IncidentTranslation.length>0)
+	{
+		incidentObj.translationID=incident.IncidentTranslation[0].ID
+		incidentObj.incident_narrative=incident.IncidentTranslation[0].narrative_of_incident		
+	}
+	return incidentObj
+	})
+}
+
+export const constructIncidentTranslationObj = (data) => {
+	return {
+		"language" : "en",
+		"narrative_of_incident" : data.incident_narrative
+		
+	}
+}
+export const constructIncidentObj = (data,incidentTranslationObj) => {
+	let incidentObj =  {
+		"date_of_incident" : getISOfromDatepicker(data.date_of_incident),		
+		"location" : data.incident_location		
+	}
+	if(incidentTranslationObj)
+		incidentObj.IncidentTranslation=[incidentTranslationObj]				
+	return incidentObj
+}
+
 export const constructReportObj = (data) => {
 	console.log(data)
 	if (data.photo && data.photo.length !== 0) {
@@ -76,9 +109,9 @@ export const constructReportObj = (data) => {
 	  "languagues_spoken": data.language,
 	  "about_the_victim": data.about,
 	  "additional_information": data.additional
-  }
+    }
 
-  console.log(data)
+	console.log(data)
 
 	let reporterInfoObj = {
 		"name_of_reporter" : data.name,
@@ -87,17 +120,8 @@ export const constructReportObj = (data) => {
     "is_direct_testimony": (data.own_testimony === 'yes')
 	}
 	
-	let incidentTranslationObj = {
-		"language" : "en",
-		"narrative_of_incident" : data.incident_narrative
-		
-	}
-	let incidentObj = {
-		"date_of_incident" : getISOfromDatepicker(data.date_of_incident),
-		"location" : data.incident_location,
-		"IncidentTranslation" : [incidentTranslationObj]
-				
-	}
+	let incidentTranslationObj = constructIncidentTranslationObj(data)
+	let incidentObj = constructIncidentObj(data,incidentTranslationObj)
 
   let reportObj = {
 	  "name": data.victim_name,

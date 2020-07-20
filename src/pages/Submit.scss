@@ -15,6 +15,14 @@
       width: 80%;
     }
 
+	.success {
+		color: green;
+		font-weight: bold;
+	}
+	.error {
+		color: red;
+		font-weight: bold;
+	}
     .btn {
       align-self: flex-end;
     }

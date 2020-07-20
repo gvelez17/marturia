@@ -93,11 +93,12 @@ const ViewVictim = (props) => {
 							shown={shown}
 							setShown={setShown}
 							info={<VictimMedia/>}/>
+						 
 						<ViewVictimItem
 						 	category={"Incident List"}
 							shown={shown}
 							setShown={setShown}
-							info={<Incident data={incidents} />}/>
+							info={<Incident victimId={props.match.params.id} data={incidents} />}/>
 					</div>
 					<ViewSidebar data={vicData}/>
 				</div>

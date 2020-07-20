@@ -37,7 +37,7 @@ const IncidentItem = (props) => {
 	{
 		const incTranslationDivs = incTranslations.map( (incTrans) => 
 			
-			<div key={incTrans.ID}>
+			<div key={incTrans.ID} className='incident-top'>
 				<p> Language: {langs.filter(lang => lang.code === incTrans.language)[0].name} </p>
 				<p> Narrative of Incident: {incTrans.narrative_of_incident} </p>
 {/*				<p> Current Status Summary: {incTrans.current_status_summary}</p>*/}
@@ -45,7 +45,7 @@ const IncidentItem = (props) => {
 			)
 		content =  (
 		<div>
-			<div className='incident-top'>
+			<div>
 				<p> Date of Incident: {props.data.date_of_incident}</p>
 				<p> Location: {props.data.location} </p>
 {/*				<p> Disappearance: {props.data.is_disappearance}</p>
