@@ -38,6 +38,7 @@ const Login = () => {
 	    } else if(data.status === 200) {
 		    localStorage.setItem('token', data.token)
 		    localStorage.setItem('expiration', data.expires)
+			localStorage.setItem('role', data.role)
 				window.location.reload()
 	    } else {
 		    setErr('Something went wrong')
