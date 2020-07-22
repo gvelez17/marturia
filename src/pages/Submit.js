@@ -6,7 +6,7 @@ import IncidentForm from '../components/IncidentForm';
 import './Submit.scss';
 import langs from '../data/languages.js';
 import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
-import {constructReportObj, submitVictimTranslation, submitAllIncidents, handleFileObject} from '../actions/submit'
+import {constructReportObj, submitVictimTranslation, submitAllIncidents, handleFileObject, uploadProfilePhoto} from '../actions/submit'
 import {getISOfromDatepicker} from '../utils/utils'
 import data from '../data/countries.json';
 import statuses from '../data/status.json';
@@ -68,7 +68,7 @@ const Modal = () => {
 			} else if(data.status === 201) {
 				console.log(form.photo, form.documents)
 				//now add the photos
-				handleFileObject(data.victim.ID, form.photo, "photo")
+				uploadProfilePhoto(form.photo, data.victim.ID)
 				handleFileObject(data.victim.ID, form.documents, "documents")
 				//report created, want to redirect to success screens
 				//submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
