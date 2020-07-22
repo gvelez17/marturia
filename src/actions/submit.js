@@ -22,6 +22,21 @@ export const handleFileObject = (id, obj, tag) => {
 	}
 }
 
+export const uploadProfilePhoto = (obj, id) => {
+	if (!obj || obj.length != 1) {
+		return
+	}
+	let formData = new FormData()
+	formData.append('myfile', obj[0])
+	return fetch(process.env.REACT_APP_API_BASE + 'victims/profile-img/' + String(id), {
+		method: "POST",
+		body: formData
+	})
+	.then(res => res.json())
+	.then(data => console.log(data))
+	.catch(err => console.log(err))
+}
+
 export const submitMedia = (url, id, tag) => {
 	fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victimmedias', {
 		method: "POST",
