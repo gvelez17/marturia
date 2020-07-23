@@ -153,12 +153,13 @@ const Victims = (props) => {
 	          </div>
 	          <ul className="list">
 	            {victimList && victimList.length !== 0? victimList.map((item, index) => (
-	              <li key={item.id}>
-	                <div className="col">
-	                  <img className="photo"
+	              <li key={item.id}>	              
+					<div className="col">
+	                  {item.url &&
+					  <img className="photo"
 	                    src={item.url}
 	                    alt="victim"
-	                  />
+	                  />}
 	                </div>
 	                <div className="col">
 	                  <div className="name"><span>Name:</span> {item.name}</div>
