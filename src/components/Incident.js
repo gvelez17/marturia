@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import IncidentItem from '../components/IncidentItem';
+import {tokenIsStillValid} from '../utils/utils';
+
 import './ViewComponent.scss';
 
 const Incident = (props) => {
@@ -18,7 +20,7 @@ const Incident = (props) => {
 	const editUrl="/editincidents/"+props.victimId
 	return (
 		<div>
-		<Link to={editUrl} target="_blank">Edit Incidents</Link>
+		  {tokenIsStillValid() && <Link to={editUrl} target="_blank">Edit Incidents</Link>}
 		<div className='incident-container'>		
 		{incidentItems}			
 		</div>
