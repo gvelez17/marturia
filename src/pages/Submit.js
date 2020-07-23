@@ -6,7 +6,7 @@ import IncidentForm from '../components/IncidentForm';
 import './Submit.scss';
 import langs from '../data/languages.js';
 import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
-import {constructReportObj, submitVictimTranslation, submitAllIncidents} from '../actions/submit'
+import {constructReportObj, submitVictimTranslation, submitAllIncidents, handleFileObject, uploadProfilePhoto} from '../actions/submit'
 import {getISOfromDatepicker} from '../utils/utils'
 import data from '../data/countries.json';
 import statuses from '../data/status.json';
@@ -21,7 +21,7 @@ const filterAllStatus = (array) => {
 const statusWithoutAll = filterAllStatus(statuses.status);
 
 const Submit = (props) => {
-	
+
 
   const nameRef = useRef();
   const { register, handleSubmit, errors } = useForm()
@@ -36,7 +36,7 @@ const RedirectToView = () => {
 
 const Modal = () => {
   const CloseModal = () => {setShowRedirectModal(false)};
-  
+
   return (
   <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={showRedirectModal}>
       <div className="modal">
@@ -44,18 +44,16 @@ const Modal = () => {
 			You will be redirected to the stored profile
 			<a className="close" onClick={RedirectToView} >
               &times;
-            </a>			
+            </a>
 	   </div>
   </Popup>
   )
-   
+
 };
-
-
 
   const handleFormSubmit = (form) => {
 		let reportObj = constructReportObj(form)
-		console.log(reportObj)
+
 	  fetch(process.env.REACT_APP_API_BASE + 'reports', {
 		  method: "POST",
 		  headers: authContentTypeHeaders(),
@@ -68,6 +66,10 @@ const Modal = () => {
 				//invalid request
 				alert('invalid request')
 			} else if(data.status === 201) {
+				console.log(form.photo, form.documents)
+				//now add the photos
+				uploadProfilePhoto(form.photo, data.victim.ID)
+				handleFileObject(data.victim.ID, form.documents, "documents")
 				//report created, want to redirect to success screens
 				//submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
 				//submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
@@ -81,15 +83,15 @@ const Modal = () => {
 		.catch(err => console.log(err))
   };
 
-	
-  
+
+
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
 		nameRef.current.focus()
   }, []);
 
   return (
-    <MainLayout>	
+    <MainLayout>
       <div className="submit page">
         <div className="wrapper">
           <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -130,7 +132,7 @@ const Modal = () => {
                 />
                 {errors.discovery &&
                   <p className="error">Discovery is required</p>}
-              </div>			
+              </div>
               <div className="row radio">
                 <label>Is this your testimony?*</label>
                 <div className="radio-buttons">
@@ -178,7 +180,7 @@ const Modal = () => {
                   name="legal_name"
                   type="text"
                   ref={register({ required: false })}
-                />                
+                />
               </div>
 			  <div className="row">
                 <label htmlFor="victim_name">Aliases</label>
@@ -187,7 +189,7 @@ const Modal = () => {
                   name="aliases"
                   type="text"
                   ref={register({ required: false })}
-                />                
+                />
               </div>
 			  <div className="row">
                 <label htmlFor="gender">Gender*</label>
@@ -197,7 +199,7 @@ const Modal = () => {
                   ref={register({ required: true })}
 				  />
 				  {errors.gender &&
-                  <p className="error">Gender is required</p>}                
+                  <p className="error">Gender is required</p>}
               </div>
 			  <div className="row">
                 <label htmlFor="gender">Place of Birth</label>
@@ -227,7 +229,7 @@ const Modal = () => {
                 {errors.about &&
                   <p className="error">About is required</p>}
               </div>
-		    
+
                <div className="row">
                 <label htmlFor="country">Country of Origin*</label>
                 <select defaultValue="none"
@@ -274,9 +276,9 @@ const Modal = () => {
                   name="profession"
                   type="text"
                   ref={(input) => {
-                    register(input, { required: false });                    
+                    register(input, { required: false });
                   }}
-                />             
+                />
               </div>
 			  <div className="row">
                 <label htmlFor="detainment_date">Last Seen Date*</label>
@@ -378,6 +380,7 @@ const Modal = () => {
                   name="photo"
                   type="file"
                   accept="image/*"
+									ref={register({ required: true })}
                 />
               </div>
               <div className="row">
@@ -390,6 +393,7 @@ const Modal = () => {
                   type="file"
                   accept="image/*,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                   multiple
+									ref={register({ required: false })}
                 />
               </div>
 			 <IncidentForm register={register} errors={errors}/>
@@ -404,7 +408,7 @@ const Modal = () => {
 
 
     </MainLayout>
-	
+
 
   );
 };

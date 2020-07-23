@@ -1,7 +1,5 @@
 import {authContentTypeHeaders} from './headers'
 import {getISOfromDatepicker, getMMDDYYYYfromISO} from '../utils/utils'
-export const submitMedia = (fileObj, id) => {
-}
 
 export const submitVictimTranslation = (victimTranslationObj, id) => {
 	fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victim-translations', {
@@ -12,6 +10,56 @@ export const submitVictimTranslation = (victimTranslationObj, id) => {
 	.then(res => res.json())
 	.then(data => {
 		console.log(data)
+	})
+	.catch(err => console.log(err))
+}
+
+export const handleFileObject = (id, obj, tag) => {
+	if (obj && obj.length !== 0) {
+		for(let i = 0; i < obj.length; i++) {
+			uploadMedia(obj[i], id, tag)
+		}
+	}
+}
+
+export const uploadProfilePhoto = (obj, id) => {
+	if (!obj || obj.length != 1) {
+		return
+	}
+	let formData = new FormData()
+	formData.append('myfile', obj[0])
+	return fetch(process.env.REACT_APP_API_BASE + 'victims/profile-img/' + String(id), {
+		method: "POST",
+		body: formData
+	})
+	.then(res => res.json())
+	.then(data => console.log(data))
+	.catch(err => console.log(err))
+}
+
+export const submitMedia = (url, id, tag) => {
+	fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victimmedias', {
+		method: "POST",
+		headers: authContentTypeHeaders(),
+		body: JSON.stringify({date_of_media: "1990-09-22T22:42:31+07:00", mediaurl: url, tag: tag})
+	})
+	.then(res => res.json())
+	.then(data => console.log(data))
+	.catch(err => console.log(err))
+}
+
+export const uploadMedia = (file, id, tag) => {
+	let formData = new FormData()
+	formData.append('myfile', file)
+	return fetch(process.env.REACT_APP_API_BASE + 'incident-medias/upload', {
+		method: "POST",
+		body: formData
+	})
+	.then(res => res.json())
+	.then(data => {
+		if(data['incident-media-url']) {
+			submitMedia(data['incident-media-url'], id, tag)
+		}
 	})
 	.catch(err => console.log(err))
 }
@@ -62,12 +110,12 @@ export const convertIncidentRestToFormData = (incidentArray) => {
 	let incidentObj = {
 		"ID" : incident.ID,
 		"date_of_incident" : getMMDDYYYYfromISO(incident.date_of_incident),
-		"incident_location" : incident.location						
+		"incident_location" : incident.location
 	}
 	if(incident.IncidentTranslation && incident.IncidentTranslation.length>0)
 	{
 		incidentObj.translationID=incident.IncidentTranslation[0].ID
-		incidentObj.incident_narrative=incident.IncidentTranslation[0].narrative_of_incident		
+		incidentObj.incident_narrative=incident.IncidentTranslation[0].narrative_of_incident
 	}
 	return incidentObj
 	})
@@ -77,28 +125,20 @@ export const constructIncidentTranslationObj = (data) => {
 	return {
 		"language" : "en",
 		"narrative_of_incident" : data.incident_narrative
-		
+
 	}
 }
 export const constructIncidentObj = (data,incidentTranslationObj) => {
 	let incidentObj =  {
-		"date_of_incident" : getISOfromDatepicker(data.date_of_incident),		
-		"location" : data.incident_location		
+		"date_of_incident" : getISOfromDatepicker(data.date_of_incident),
+		"location" : data.incident_location
 	}
 	if(incidentTranslationObj)
-		incidentObj.IncidentTranslation=[incidentTranslationObj]				
+		incidentObj.IncidentTranslation=[incidentTranslationObj]
 	return incidentObj
 }
 
 export const constructReportObj = (data) => {
-	console.log(data)
-	if (data.photo && data.photo.length !== 0) {
-		submitMedia(data.photo, data.victim.ID)
-	}
-	if (data.documents && data.documents.length !== 0) {
-		submitMedia(data.documents, data.victim.ID)
-	}
-
 	 let victimTranslationObj = {
 	  "language": data.language,
 	  "gender": data.gender,
@@ -111,15 +151,13 @@ export const constructReportObj = (data) => {
 	  "additional_information": data.additional
     }
 
-	console.log(data)
-
 	let reporterInfoObj = {
 		"name_of_reporter" : data.name,
     "email_of_reporter" : data.email,
     "discovery" : data.discovery,
     "is_direct_testimony": (data.own_testimony === 'yes')
 	}
-	
+
 	let incidentTranslationObj = constructIncidentTranslationObj(data)
 	let incidentObj = constructIncidentObj(data,incidentTranslationObj)
 
