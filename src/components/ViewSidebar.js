@@ -12,10 +12,10 @@ const ViewSidebar = (props) => {
 			</div>
 			<div className='sidebar-body'>
 				<div className='sidebar-pic'>
-					<img
-						src={`https://i.pravatar.cc/160?img=17`}
-						alt="victim"
-					/>
+					   <img className="photo"
+	                    src={props.data.profile_image_url}
+	                    alt="victim"
+	                  />
 				</div>
 				<div className='sidebar-header-2'>
 					<p> {props.data.name} </p>

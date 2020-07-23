@@ -74,7 +74,8 @@ const Victims = (props) => {
 						"name": victim.name,
 						"status": victim.current_status,
 					  "location": victim.country,
-						"age": getAge(victim.date_of_birth)
+						"age": getAge(victim.date_of_birth),
+						"url": victim.profile_image_url
 					  })
 				})
 				setVictimList(vl)
@@ -154,8 +155,8 @@ const Victims = (props) => {
 	            {victimList && victimList.length !== 0? victimList.map((item, index) => (
 	              <li key={item.id}>
 	                <div className="col">
-	                  <img
-	                    src={`https://i.pravatar.cc/160?img=${idsOfImages[index]}`}
+	                  <img className="photo"
+	                    src={item.url}
 	                    alt="victim"
 	                  />
 	                </div>
