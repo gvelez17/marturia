@@ -24,7 +24,14 @@ const Submit = (props) => {
 
 
   const nameRef = useRef();
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors } = useForm({
+	   defaultValues: {
+    country: "",
+	language:""
+  
+  }
+  }
+  )
 	const [showRedirectModal, setShowRedirectModal] = useState(false)
 	const [victimID, setVictimID] = useState(-1)
 
@@ -236,9 +243,7 @@ const Modal = () => {
 												id="country"
 												name="country"
 												ref={register({ required: true })}>
-                  <option value="none" disabled hidden>
-                    Select a country
-                  </option>
+
                 {data.countries.map(item => (
                   <option
                     key={item.country}
@@ -251,15 +256,11 @@ const Modal = () => {
 								<p className="error">Country of Origin is required</p>}
               </div>
 			   <div className="row">
-			  				<label htmlFor="language"> Language</label>
+			  				<label htmlFor="language">Language*</label>
                 <select
 								  id="language"
 								  name="language"
-								  ref={register}>
-                  <option value="none"
-				    				defaultValue>
-                    Select your language
-                  </option>
+								  ref={register({ required: true })}>
                   {langs.map((item) => (
                   <option
                     key={item.code + item.name}
@@ -268,6 +269,8 @@ const Modal = () => {
                   </option>
                 ))}
                 </select>
+					{errors.language &&
+								<p className="error">Language is required</p>}
               </div>
 			   <div className="row">
                 <label htmlFor="profession">Profession</label>
@@ -374,7 +377,7 @@ const Modal = () => {
                 />
               </div>
               <div className="row">
-                <label htmlFor="photo">Victim's Photo</label>
+                <label htmlFor="photo">Victim's Photo*</label>
                 <input
                   id="photo"
                   name="photo"
@@ -382,6 +385,8 @@ const Modal = () => {
                   accept="image/*"
 									ref={register({ required: true })}
                 />
+				 {errors.photo &&
+                  <p className="error">Photo is required</p>}
               </div>
               <div className="row">
                 <label htmlFor="documents">
