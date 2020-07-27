@@ -23,7 +23,7 @@ export const handleFileObject = (id, obj, tag) => {
 }
 
 export const uploadProfilePhoto = (obj, id) => {
-	if (!obj || obj.length != 1) {
+	if (!obj || obj.length !== 1) {
 		return
 	}
 	let formData = new FormData()

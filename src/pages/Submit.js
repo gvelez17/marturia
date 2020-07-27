@@ -5,9 +5,8 @@ import MainLayout from '../components/MainLayout';
 import IncidentForm from '../components/IncidentForm';
 import './Submit.scss';
 import langs from '../data/languages.js';
-import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
-import {constructReportObj, submitVictimTranslation, submitAllIncidents, handleFileObject, uploadProfilePhoto} from '../actions/submit'
-import {getISOfromDatepicker} from '../utils/utils'
+import {authContentTypeHeaders} from '../actions/headers'
+import {constructReportObj, handleFileObject, uploadProfilePhoto} from '../actions/submit'
 import data from '../data/countries.json';
 import statuses from '../data/status.json';
 import healthStatuses from '../data/health_status.json';
@@ -42,7 +41,7 @@ const RedirectToView = () => {
 }
 
 const Modal = () => {
-  const CloseModal = () => {setShowRedirectModal(false)};
+  
 
   return (
   <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={showRedirectModal}>

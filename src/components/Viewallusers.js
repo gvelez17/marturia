@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import ViewUser from './Viewuser';
 import {authorizationHeaders} from '../actions/headers';
 import DataTable from 'react-data-table-component';
 import Popup from 'reactjs-popup';
@@ -22,7 +21,7 @@ const ViewAllUsers = (props) => {
 
 	const checkAllUpdatesDone = (updateDoneMap) => {
 		const arr = Array.from(updateDoneMap.values())
-		const alldone = arr.filter(value => value==false).length==0
+		const alldone = arr.filter(value => value===false).length===0
 		//console.log("alldone: "+alldone)
 		// if all update calls have returned reload data from backend to update table
 		if(alldone)

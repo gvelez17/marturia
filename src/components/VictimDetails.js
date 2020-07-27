@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import './ViewComponent.scss';
 import langs from '../data/languages.js';
 
