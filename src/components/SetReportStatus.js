@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import ViewUser from './Viewuser';
+import {Link } from "react-router-dom";
 import {authorizationHeaders} from '../actions/headers';
 import './Admin.scss';
 import DataTable from 'react-data-table-component';
@@ -25,7 +24,7 @@ const SetReportStatus = (props) => {
 
 	const checkAllUpdatesDone = (updateDoneMap) => {
 		const arr = Array.from(updateDoneMap.values())
-		const alldone = arr.filter(value => value==false).length==0
+		const alldone = arr.filter(value => value===false).length===0
 		//console.log("alldone: "+alldone)
 		// if all update calls have returned reload data from backend to update table
 		if(alldone)

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
-import Popup from 'reactjs-popup';
-import {debounce} from "lodash";
 import {getAge} from '../utils/utils';
 import './Victims.scss';
 import data from '../data/countries.json';
@@ -16,7 +14,6 @@ const Victims = (props) => {
 	const [name, setName] = useState('');
 	const [status, setStatus] = useState('');
 	const [country, setCountry] = useState('Select Country');
-	const [showPopup, setShowPopup] = useState(false)
 
 
 	const constructQStr = (name, country, status) => {
@@ -182,6 +179,5 @@ const Victims = (props) => {
   return content;
 };
 
-const idsOfImages = [68, 47, 63, 51, 35, 17];
 
 export default Victims;

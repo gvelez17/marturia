@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import {getMMDDYYYYfromISO, getAge} from '../utils/utils';
-import MainLayout from '../components/MainLayout';
+import React from 'react';
+import {getMMDDYYYYfromISO} from '../utils/utils';
+
 import './ViewSidebar.scss';
 
 const ViewSidebar = (props) => {

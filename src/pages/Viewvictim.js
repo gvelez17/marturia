@@ -5,13 +5,10 @@ import ViewVictimItem from '../components/ViewVictimItem';
 import VictimMedia from '../components/VictimMedia';
 import Incident from '../components/Incident';
 import VictimDetails from '../components/VictimDetails';
+import {authContentTypeHeaders} from '../actions/headers';
 import './View.scss';
 
-const categories = [
-	"Victim Details",
-	"Victim Media",
-	"Incident List"
-];
+
 
 const ViewVictim = (props) => {
 	const [vicData, setVicData] = useState(null);
@@ -27,7 +24,9 @@ const ViewVictim = (props) => {
 	});
 
 	useEffect(() => {
-		fetch(process.env.REACT_APP_API_BASE + 'victims?idvictim=' + String(props.match.params.id))
+		fetch(process.env.REACT_APP_API_BASE + 'victims?idvictim=' + String(props.match.params.id), {
+		  headers: authContentTypeHeaders()
+		})
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
@@ -42,7 +41,9 @@ const ViewVictim = (props) => {
 		})
 		.catch(err => console.log(err))
 
-		fetch(process.env.REACT_APP_API_BASE + 'incidents?idvictim=' + String(props.match.params.id))
+		fetch(process.env.REACT_APP_API_BASE + 'incidents?idvictim=' + String(props.match.params.id), {
+		  headers: authContentTypeHeaders()
+		})
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
@@ -56,7 +57,9 @@ const ViewVictim = (props) => {
 		})
 		.catch(err => console.log(err))
 		
-		fetch(process.env.REACT_APP_API_BASE + 'victim-translations?idvictim=' + String(props.match.params.id))
+		fetch(process.env.REACT_APP_API_BASE + 'victim-translations?idvictim=' + String(props.match.params.id), {
+		  headers: authContentTypeHeaders()
+		})
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
@@ -70,7 +73,9 @@ const ViewVictim = (props) => {
 		})
 		.catch(err => console.log(err))
 		
-		fetch(process.env.REACT_APP_API_BASE + 'victimmedias?idvictim=' + String(props.match.params.id))
+		fetch(process.env.REACT_APP_API_BASE + 'victimmedias?idvictim=' + String(props.match.params.id), {
+		  headers: authContentTypeHeaders()
+		})
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {

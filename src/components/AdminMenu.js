@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
-import DeleteUser from '../components/Admindeleteuser';
 import ViewAllUsers from '../components/Viewallusers';
-import LookupUser from '../components/Adminviewuser';
 import CreateUser from '../components/Createuser';
 import SetReportStatus from '../components/SetReportStatus';
 import {tokenIsStillValid} from '../utils/utils';
@@ -41,8 +39,8 @@ if(!tokenIsStillValid()) {
 	}
 return(
 	<Router>
-      <div class="admin-wrapper">
-        <div class="admin-choice-container">
+      <div className="admin-wrapper">
+        <div className="admin-choice-container">
           <ul>
 		  {localStorage.getItem('role')==='admin' &&
 			<li>
@@ -65,7 +63,7 @@ return(
         
         </div>
 
-        <div class='admin-container'>
+        <div className='admin-container'>
           <Switch>
             {routes.map((route, index) => (
               // Render more <Route>s with the same paths as

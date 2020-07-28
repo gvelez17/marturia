@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-import MainLayout from '../components/MainLayout';
-import {contentTypeHeaders, authContentTypeHeaders} from '../actions/headers'
+
+import {authContentTypeHeaders} from '../actions/headers'
 import {convertIncidentRestToFormData, constructIncidentObj, constructIncidentTranslationObj} from '../actions/submit'
 
 
@@ -86,7 +85,7 @@ const Incident = (props) => {
 		}
 		
 		let incidentsDataConverted = convertIncidentRestToFormData(incidentsDataTmp)
-		let incidentArr = new Array()
+		let incidentArr = []
 		for (let i=0; i<incidentsDataConverted.length; i++)
 		{
 			incidentArr[i]=i
@@ -130,7 +129,6 @@ const Incident = (props) => {
 	})
 	.then(res => res.json())
 	.then(data => {			
-			let newSaveState=[...saveState]
 			if(data.status === 201)
 			{
 				updateSaveState(stateFieldId,"saved")							
@@ -156,7 +154,6 @@ const Incident = (props) => {
 	})
 	.then(res => res.json())
 	.then(data => {			
-			let newSaveState=[...saveState]
 			if(data.status === 200) 													
 				updateSaveState(stateFieldId,"saved")							
 			else			
@@ -219,7 +216,6 @@ const Incident = (props) => {
 	})
 	.then(res => res.json())
 	.then(data => {			
-			let newSaveState=[...saveState]
 			if(data.status === 200) 													
 				updateSaveState(stateFieldId,"saved")							
 			else			
