@@ -14,15 +14,15 @@ export const submitVictimTranslation = (victimTranslationObj, id) => {
 	.catch(err => console.log(err))
 }
 
-export const handleFileObject = (id, obj, tag) => {
+export const handleFileObject = (id, obj, tag, decreaseFun, uploadCounter) => {
 	if (obj && obj.length !== 0) {
 		for(let i = 0; i < obj.length; i++) {
-			uploadMedia(obj[i], id, tag)
+			uploadMedia(obj[i], id, tag, decreaseFun, uploadCounter)
 		}
 	}
 }
 
-export const uploadProfilePhoto = (obj, id) => {
+export const uploadProfilePhoto = (obj, id, successCallback) => {
 	if (!obj || obj.length !== 1) {
 		return
 	}
@@ -34,6 +34,7 @@ export const uploadProfilePhoto = (obj, id) => {
 	})
 	.then(res => res.json())
 	.then(data => console.log(data))
+	.then(successCallback)
 	.catch(err => console.log(err))
 }
 
@@ -48,7 +49,7 @@ export const submitMedia = (url, id, tag) => {
 	.catch(err => console.log(err))
 }
 
-export const uploadMedia = (file, id, tag) => {
+export const uploadMedia = (file, id, tag, decreaseFun, uploadCounter) => {
 	let formData = new FormData()
 	formData.append('myfile', file)
 	return fetch(process.env.REACT_APP_API_BASE + 'incident-medias/upload', {
@@ -61,6 +62,7 @@ export const uploadMedia = (file, id, tag) => {
 			submitMedia(data['incident-media-url'], id, tag)
 		}
 	})
+	.then(() => decreaseFun(uploadCounter))
 	.catch(err => console.log(err))
 }
 

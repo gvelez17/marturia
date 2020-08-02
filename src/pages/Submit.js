@@ -31,7 +31,10 @@ const Submit = (props) => {
   }
   }
   )
-	const [showRedirectModal, setShowRedirectModal] = useState(false)
+	const [photoUploaded, setPhotoUploaded] = useState(false)
+	const [documentsUploaded, setDocumentsUploaded] = useState(false)
+	
+	//const [documentUploadingCount, setDocumentUploadingCount] = useState(0)
 	const [victimID, setVictimID] = useState(-1)
 
 
@@ -44,7 +47,7 @@ const Modal = () => {
   
 
   return (
-  <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={showRedirectModal}>
+  <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={photoUploaded && documentsUploaded}>
       <div className="modal">
             Successfully submitted a victim <br/>
 			You will be redirected to the stored profile
@@ -57,6 +60,12 @@ const Modal = () => {
 
 };
 
+  const decreaseDocumentUploadingCount = (counter) =>{
+	  counter.count -= 1
+	  if(counter.count<1)
+		  setDocumentsUploaded(true)	  
+  }
+  
   const handleFormSubmit = (form) => {
 		let reportObj = constructReportObj(form)
 
@@ -74,15 +83,12 @@ const Modal = () => {
 			} else if(data.status === 201) {
 				console.log(form.photo, form.documents)
 				//now add the photos
-				uploadProfilePhoto(form.photo, data.victim.ID)
-				handleFileObject(data.victim.ID, form.documents, "documents")
+								
+				uploadProfilePhoto(form.photo, data.victim.ID, ()=>setPhotoUploaded(true))
+				handleFileObject(data.victim.ID, form.documents, "documents", decreaseDocumentUploadingCount, {"count": form.documents?form.documents.length:0})
 				//report created, want to redirect to success screens
-				//submitVictimTranslation(reportObj.VictimTranslation[0], data.victim.ID)
-				//submitAllIncidents(incidents, incidentData, data.victim.ID, reportObj.VictimTranslation[0]['language'])
-				setShowRedirectModal(true)
 				setVictimID(data.victim.ID)
 			} else {
-				//something went wrong
 				alert('something went wrong')
 			}
 		})
