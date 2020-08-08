@@ -14,6 +14,8 @@ const Incident = (props) => {
 //	let incidentData = props.incident_data
 	let errors = props.errors
 	let register = props.register
+	let trigger = props.trigger
+	let getValues = props.getValues
 	
 		
 	const createIncidentObj = () => {
@@ -38,7 +40,7 @@ const Incident = (props) => {
     async function loadIncidents() {
 	try
 	{
-	  const response = await fetch(process.env.REACT_APP_API_BASE + 'incidents?idvictim=' + String(props.victimId))
+	  const response = await fetch(process.env.REACT_APP_API_BASE + 'incidents?idvictim=' + String(props.victimId) , { headers: authContentTypeHeaders()})
 	  const res = await response.json()
 	  if(res.status === 200)  {
 		console.log(res)
@@ -332,7 +334,7 @@ const Incident = (props) => {
 											type="date"
 											id={"date_of_incident" +String(item)}
 											name={"date_of_incident"}
-											value={incidentsData[item]['date_of_incident'] || ''}											
+											value={incidentsData[item]['date_of_incident'] || (getValues && getValues('date_of_incident'))}
 											onChange={(e) => handleChange(e, item)}
 											onBlur={(e) => sendIncidentChange(e, item)}
 										  ref={register({ required: true })}/>
@@ -345,7 +347,7 @@ const Incident = (props) => {
 										<input
 											id={"incident_location"+String(item)}
 											name={"incident_location"}
-											value={incidentsData[item]['incident_location'] || ''}
+											value={incidentsData[item]['incident_location'] || (getValues && getValues('incident_location'))}
 											onChange={(e) => handleChange(e, item)}
 											onBlur={(e) => sendIncidentChange(e, item)}
 											placeholder="Location of the incident."
@@ -359,7 +361,7 @@ const Incident = (props) => {
 										<textarea
 											id={"incident_narrative"+String(item)}
 											name={"incident_narrative"}
-											value={incidentsData[item]['incident_narrative']}
+											value={incidentsData[item]['incident_narrative'] || (getValues && getValues('incident_narrative'))}
 											onChange={(e) => handleChange(e, item)}
 											onBlur={(e) => sendIncidentTranslationChange(e, item)}
 											placeholder="Narrative of the incident."
@@ -372,7 +374,7 @@ const Incident = (props) => {
 										<textarea
 											id={"incident_media"}
 											name={"incident_media"}
-											value={incidentsData[item]['incident_media']}
+											value={incidentsData[item]['incident_media']  || (getValues && getValues('incident_media'))}
 											onChange={(e) => handleChange(e, item)}											
 											placeholder="Images or videos relating to the incident."
 											ref={register({ required: false })}/>

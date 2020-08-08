@@ -47,7 +47,7 @@ const ViewVictim = (props) => {
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
-				console.log(data)
+				//console.log(data)
 				setIncidents(data.incidents)
 			} else if(data.status === 400) {
 				//params error
@@ -63,7 +63,7 @@ const ViewVictim = (props) => {
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
-				console.log(data)
+				//console.log(data)
 				setTranslations(data.translations)
 			} else if(data.status === 400) {
 				//params error
@@ -79,7 +79,7 @@ const ViewVictim = (props) => {
 		.then(res => res.json())
 		.then(data => {
 			if(data.status === 200) {
-				console.log(data)
+				//console.log(data)
 				setMedias(data.medias)
 			} else if(data.status === 400) {
 				//params error

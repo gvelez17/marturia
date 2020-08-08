@@ -2,6 +2,12 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column-reverse;
 	justify-content: space-around;
+}
+
+@media all and (min-width: 50em) {
+.view-container {    
+	flex-direction: row;
+  }
 }

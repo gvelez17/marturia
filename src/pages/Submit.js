@@ -23,29 +23,29 @@ const Submit = (props) => {
 
 
   const nameRef = useRef();
-  const { register, handleSubmit, errors } = useForm({
+  const { register, trigger, errors, getValues, handleSubmit } = useForm({
 	   defaultValues: {
     country: "",
 	language:""
   
-  }
-  }
-  )
+  }})
+  
 	const [photoUploaded, setPhotoUploaded] = useState(false)
 	const [documentsUploaded, setDocumentsUploaded] = useState(false)
 	
-	//const [documentUploadingCount, setDocumentUploadingCount] = useState(0)
-	const [victimID, setVictimID] = useState(-1)
+    //state variables to record whether modal component is shown and which popup message to display
+    const [warningShown, setWarningShown] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+	const [submitting, setSubmitting] = useState(false)
 
+	const [victimID, setVictimID] = useState(-1)
 
 
 const RedirectToView = () => {
 	props.history.push('/view/'+victimID)
 }
 
-const Modal = () => {
-  
-
+const SuccessModal = () => {
   return (
   <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={photoUploaded && documentsUploaded}>
       <div className="modal">
@@ -57,18 +57,66 @@ const Modal = () => {
 	   </div>
   </Popup>
   )
+}
 
-};
+const WarningModal = () => {
+  return (
+        <Popup modal closeOnDocumentClick open={warningShown && !submitting && !photoUploaded && !documentsUploaded}>
+          <div className="modal">            
+			<p>Warning! Very private information should not be uploaded but sent via more secure channels</p>            
+			<a className="btn" onClick={toggleWarningShown} >
+              Cancel
+            </a>
+            <a className="btn" onClick={handleSubmit(handleFormSubmit)} >
+              Continue to Submit
+            </a>
+          </div>
+        </Popup>
+)}
 
-  const decreaseDocumentUploadingCount = (counter) =>{
+const SendingModal = () => {
+  return (
+  <Popup modal closeOnDocumentClick	open={submitting && !photoUploaded && !documentsUploaded }>
+      <div className="modal">
+            Submitting ...
+	   </div>
+  </Popup>
+  )
+}
+  //function to switch boolean value of state(warningShown)
+  const toggleWarningShown = () => {
+    setWarningShown(!warningShown)
+    console.log('warningShown is now', warningShown)
+  }
+
+  //function to switch boolean value of state(showModal)
+  const toggleShowModal = () => {
+    setShowModal(!showModal)
+    console.log('showModal is now', showModal)
+  }
+  
+ async function showWarning () {
+	 await trigger() // only submit if no validation error
+	 if(Object.keys(errors).length===0)
+	 {
+		toggleWarningShown()
+
+	 }
+ }
+ 
+ 
+
+
+  const decreaseDocumentUploadingCount = (counter) =>{	  
 	  counter.count -= 1
 	  if(counter.count<1)
 		  setDocumentsUploaded(true)	  
+	  console.log(counter.count)
   }
   
   const handleFormSubmit = (form) => {
-		let reportObj = constructReportObj(form)
-
+	  setSubmitting(true)
+	  let reportObj = constructReportObj(form)
 	  fetch(process.env.REACT_APP_API_BASE + 'reports', {
 		  method: "POST",
 		  headers: authContentTypeHeaders(),
@@ -76,7 +124,7 @@ const Modal = () => {
 		})
 		.then(res => res.json())
 		.then(data => {
-			console.log(data)
+			console.log(data)			
 			if(data.status === 400) {
 				//invalid request
 				alert('invalid request')
@@ -85,22 +133,24 @@ const Modal = () => {
 				//now add the photos
 								
 				uploadProfilePhoto(form.photo, data.victim.ID, ()=>setPhotoUploaded(true))
-				handleFileObject(data.victim.ID, form.documents, "documents", decreaseDocumentUploadingCount, {"count": form.documents?form.documents.length:0})
+				let documentCount = form.documents?form.documents.length:0
+				if(documentCount===0)
+					setDocumentsUploaded(true)
+				else
+					handleFileObject(data.victim.ID, form.documents, "documents", decreaseDocumentUploadingCount, {"count": documentCount })
 				//report created, want to redirect to success screens
-				setVictimID(data.victim.ID)
+				setVictimID(data.victim.ID)				
 			} else {
 				alert('something went wrong')
 			}
 		})
 		.catch(err => console.log(err))
-  };
-
-
+  }
 
   useEffect(() => {
     document.title = 'Submit Testimony - Testimony Database';
 		nameRef.current.focus()
-  }, []);
+  }, [])
 
   return (
     <MainLayout>
@@ -108,7 +158,7 @@ const Modal = () => {
         <div className="wrapper">
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <section>
-              <h1>Your information</h1>
+              <h1>Your information</h1>			  
               <div className="row">
                 <label htmlFor="name">Name*</label>
                 <input
@@ -406,17 +456,17 @@ const Modal = () => {
 									ref={register({ required: false })}
                 />
               </div>
-			 <IncidentForm register={register} errors={errors}/>
+			 <IncidentForm register={register} errors={errors} trigger={trigger} getValues={getValues}/>
               <div className="row">
-                <button type="submit" className="btn">Submit</button>
+                <button type="button" className="btn" onClick={showWarning}>Submit</button>
               </div>
             </section>
           </form>
-		  <Modal />
+		  <WarningModal />
+		  <SuccessModal />
+		  <SendingModal />
         </div>
       </div>
-
-
     </MainLayout>
 
 

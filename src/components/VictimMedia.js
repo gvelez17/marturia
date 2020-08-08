@@ -15,7 +15,7 @@ const VictimMedia = (props) => {
 	
 		{props.data.map((value, index) => {
 			return (
-				  <div className='sidebar-pic'>
+				  <div key={index} className='sidebar-pic'>
 					   <img className="photo"
 	                    src={value.mediaurl}
 	                    alt="victim"
