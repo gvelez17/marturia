@@ -101,7 +101,7 @@ const ViewVictim = (props) => {
 		 content = (
 			<MainLayout>
 				<div className='view-container'>
-					<div>
+					<div className="victim-item-container">
 						<ViewVictimItem
 							category={"Victim Details"}
 							shown={shown}
