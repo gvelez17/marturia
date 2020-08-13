@@ -38,8 +38,19 @@ export const uploadProfilePhoto = (obj, id, successCallback) => {
 	.catch(err => console.log(err))
 }
 
-export const submitMedia = (url, id, tag) => {
+const submitVictimMedia = (url, id, tag) => {
 	fetch(process.env.REACT_APP_API_BASE + 'victims/' + String(id) + '/victimmedias', {
+		method: "POST",
+		headers: authContentTypeHeaders(),
+		body: JSON.stringify({date_of_media: "1990-09-22T22:42:31+07:00", mediaurl: url, tag: tag})
+	})
+	.then(res => res.json())
+	.then(data => console.log(data))
+	.catch(err => console.log(err))
+}
+
+const submitIncidentMedia = (url, id, tag) => {
+	fetch(process.env.REACT_APP_API_BASE + 'incidents/' + String(id) + '/incident-medias', {
 		method: "POST",
 		headers: authContentTypeHeaders(),
 		body: JSON.stringify({date_of_media: "1990-09-22T22:42:31+07:00", mediaurl: url, tag: tag})
@@ -58,8 +69,12 @@ export const uploadMedia = (file, id, tag, decreaseFun, uploadCounter) => {
 	})
 	.then(res => res.json())
 	.then(data => {
-		if(data['incident-media-url']) {
-			submitMedia(data['incident-media-url'], id, tag)
+		if(data['incident-media-url']) 
+		{
+			if(tag.indexOf('incident')>-1)
+				submitIncidentMedia(data['incident-media-url'], id, tag)
+			else
+				submitVictimMedia(data['incident-media-url'], id, tag)
 		}
 	})
 	.then(() => decreaseFun(uploadCounter))

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-
-import {authContentTypeHeaders} from '../actions/headers'
+import DataTable from 'react-data-table-component';
+import Popup from 'reactjs-popup';
+import {handleFileObject} from '../actions/submit'
+import {authContentTypeHeaders,authorizationHeaders} from '../actions/headers'
 import {convertIncidentRestToFormData, constructIncidentObj, constructIncidentTranslationObj} from '../actions/submit'
 
 
@@ -31,10 +33,59 @@ const Incident = (props) => {
 	
 	const [incidents, setIncidents] = useState([0])
 	const [incidentsData, setIncidentsData] = useState({0: createIncidentObj()	})	
+	
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [isEditMode, setIsEditMode] = useState(false)	
 	const [saveState, setSaveState] = useState([])
+		
+	const [reloadToggle, setReloadToggle] = useState(false);
+	const [selectedRows, setSelectedRows] = useState([]);		
+	const [toggleClearRows, setToggleClearRows] = useState(false);
+	const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+	const [incidentFilesUploaded, setIncidentFilesUploaded] = useState(false)	
+
 	
+	const checkAllUpdatesDone = (updateDoneMap) => {
+		const arr = Array.from(updateDoneMap.values())
+		const alldone = arr.filter(value => value===false).length===0
+		//console.log("alldone: "+alldone)
+		// if all update calls have returned reload data from backend to update table
+		if(alldone)
+		{
+			setToggleClearRows(!toggleClearRows)
+			setReloadToggle(!reloadToggle)
+		}
+	}
+	async function finishQuery (incidentDatas) {
+		setIncidentsData(incidentDatas)
+		setIsLoaded(true)
+	}
+
+	async function fetchMedias (incidentDatas) {
+		for (let a=0; a<incidentDatas.length; a++)
+		{		
+			let incident = incidentDatas[a]
+			try
+			{			
+				const response = await fetch(process.env.REACT_APP_API_BASE + 'incident-medias?idincident=' + incident.ID, {  headers: authContentTypeHeaders()})
+				const res = await response.json()
+				if(res.status === 200) {
+					//console.log(data)
+					incident.medias = res.medias
+				} else if(res.status === 400) {
+					//params error
+				} else {
+					//something went wrong
+				}
+			}
+			catch(err)
+			{
+			console.log(err)
+			}
+		}
+		return incidentDatas
+	}
 	
 			
     async function loadIncidents() {
@@ -93,8 +144,7 @@ const Incident = (props) => {
 			incidentArr[i]=i
 		}
 		setIncidents(incidentArr)
-		setIncidentsData(incidentsDataConverted)
-		setIsLoaded(true)
+		return incidentsDataConverted
   }
   
   const updateSaveState = (ID,val)  => {
@@ -228,12 +278,39 @@ const Incident = (props) => {
 	
 	.catch(err => console.log(err))
 }
+
+	const deleteMediaUrl = (media,updateDoneMap) => {
+		media.updated=false
+		fetch(process.env.REACT_APP_API_BASE + 'incident-medias/'+media.ID, {
+			method: 'DELETE',
+			headers: authorizationHeaders()
+		})
+		.then(res => res.json())
+		.then(data => {
+			updateDoneMap.set(media.ID,true)
+			checkAllUpdatesDone(updateDoneMap)
+			if(data.status === 400) {
+				//params error				
+			} else if(data.status === 200) {
+				//got the data			
+			} else if(data.status === 403){
+				//access forbidden
+				
+			} else {
+				//something went wrong
+				
+			}
+		})
+		.catch(err => console.log(err))
+	}
   
   useEffect(() => {
 	setIsEditMode(props.editMode)
 	if(props.editMode)
-		loadIncidents().then(loadAllIncidentTranslations)
-  }, [])
+	{
+		loadIncidents().then(loadAllIncidentTranslations).then(fetchMedias).then(finishQuery)
+	}
+  }, [reloadToggle])
  
 	const addIncident = (e) => {
 		e.preventDefault()
@@ -280,6 +357,28 @@ const Incident = (props) => {
 		}
 	}
 	
+    const decreaseIncidentFilesUploadingCount = (counter) =>{	  
+	  counter.count -= 1
+	  if(counter.count<1)
+	  {
+		  setIncidentFilesUploaded(true)	  
+		  setReloadToggle(!reloadToggle)
+	  }
+	  console.log("incident files upload counter:"+counter.count)
+	}
+
+	const sendIncidentFiles = (e,index) => {	
+		if(isEditMode)		
+		{
+			let incidentFileCount = e.target.files.length
+			if(incidentFileCount===0)
+				setIncidentFilesUploaded(true)
+			else
+				handleFileObject(incidentsData[index].ID, e.target.files, "incidents", decreaseIncidentFilesUploadingCount, {"count": incidentFileCount })
+		}
+	}
+	
+	
 	const sendIncidentDelete = (e,index) => {	
 		if(isEditMode && incidentsData[index].ID)		
 			sendDeleteIncident(incidentsData[index], e.target.id)					
@@ -311,7 +410,72 @@ const Incident = (props) => {
 			div =  <div className='error'>Error !</div>
 		return div
 	}
-	
+	const columns = [ 		
+		{
+			name:'ID',
+			selector:'ID',
+			sortable:true			
+		},
+		{
+			name:'Incident URL',
+			selector:'mediaurl',
+			sortable:true,
+			cell: row => <div className='mediaTableDiv'><a>{row.mediaurl}<div><img style={{height:50}} src={row.mediaurl}/></div></a></div>
+		}
+	 ]
+	 
+	const customStyles = {
+	  headCells: {
+		style: {
+		  fontSize: '14px',
+		  fontWeight: 'bold',
+		},
+	  },  
+	}
+	const updateState = (state) => {
+		setSelectedRows(state.selectedRows)
+	}
+	const deleteURLs = () => {
+		let updateDoneMap = new Map()
+		selectedRows.forEach( sr => updateDoneMap.set(sr.ID,false))
+		selectedRows.forEach( sr => deleteMediaUrl(sr,updateDoneMap))
+	}
+    const clickBtnDelete = (e) => {
+		e.preventDefault()
+		setShowDeletePopup(true)
+	}
+
+	const deletePopup = () => {
+		return (
+		 <Popup open={showDeletePopup} modal>
+			{close => (
+			  <div className="modal">
+				<a className="close" onClick={close}>
+				  &times;
+				</a>
+				<div className="header"> Delete Incident URLs </div>
+				<div className="content">
+					Do you really want to delete {selectedRows.length} incident URLs ?		
+				</div>
+				<div className="actions">				  
+					<button className="button" onClick={()=> {
+						deleteURLs();close()
+						}}> Yes </button>			 				
+				  <button
+					className="button"
+					onClick={() => {              
+					  close();
+					}}
+				  >
+					close modal
+				  </button>
+				</div>
+			  </div>
+			)}
+		  </Popup> )
+		}
+	const deletePopupInstance = deletePopup();
+		
 	if(isLoaded || !props.editMode)
 	content= (
 	
@@ -369,6 +533,41 @@ const Incident = (props) => {
 										{errors.incident_narrative &&
 											<p className="error">Narrative is required</p>}
 									</div>
+									
+									<div className="row">
+										<label htmlFor="incident_files">
+										{getSaveStateLabel('incident_files'+String(item))}
+										  Photos / Videos of the Incident
+										</label>
+										<input
+										  id="incident_files"
+										  name="incident_files"
+										  type="file"
+										  accept="image/*,video/*"
+										  onChange={(e) => sendIncidentFiles(e, item)}
+										  multiple
+										  ref={register({ required: false })}
+										/>
+									  </div>
+								{props.editMode &&
+								<div className="row">
+									<label htmlFor="incident_files_table">
+										  Remove Files
+										</label>
+								 	<DataTable 
+										data={incidentsData[item].medias} 
+										columns={columns} 
+										selectableRows 										
+										onSelectedRowsChange={updateState}
+										customStyles={customStyles}
+										clearSelectedRows={toggleClearRows}
+									 />
+									 <button className="btn-left" onClick={(e) =>clickBtnDelete(e) }> Delete Incident URLs </button>
+									 {deletePopupInstance}
+									
+									</div>
+								}
+									
 									<div className='row'>
 										<label htmlFor='incident_media'> Additional Media</label>
 										<textarea

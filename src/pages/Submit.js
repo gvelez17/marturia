@@ -32,6 +32,7 @@ const Submit = (props) => {
   
 	const [photoUploaded, setPhotoUploaded] = useState(false)
 	const [documentsUploaded, setDocumentsUploaded] = useState(false)
+	const [incidentFilesUploaded, setIncidentFilesUploaded] = useState(false)
 	
     //state variables to record whether modal component is shown and which popup message to display
     const [warningShown, setWarningShown] = useState(false)
@@ -47,7 +48,7 @@ const RedirectToView = () => {
 
 const SuccessModal = () => {
   return (
-  <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={photoUploaded && documentsUploaded}>
+  <Popup modal closeOnDocumentClick	onClose={RedirectToView} open={photoUploaded && documentsUploaded && incidentFilesUploaded}>
       <div className="modal">
             Successfully submitted a victim <br/>
 			You will be redirected to the stored profile
@@ -61,22 +62,22 @@ const SuccessModal = () => {
 
 const WarningModal = () => {
   return (
-        <Popup modal closeOnDocumentClick open={warningShown && !submitting && !photoUploaded && !documentsUploaded}>
+        <Popup modal closeOnDocumentClick open={warningShown && !submitting && !photoUploaded && !documentsUploaded && !incidentFilesUploaded}>
           <div className="modal">            
 			<p>Warning! Very private information should not be uploaded but sent via more secure channels</p>            
-			<a className="btn" onClick={toggleWarningShown} >
+			<button className="button" onClick={toggleWarningShown} >
               Cancel
-            </a>
-            <a className="btn" onClick={handleSubmit(handleFormSubmit)} >
+            </button>
+            <button className="button" onClick={handleSubmit(handleFormSubmit)} >
               Continue to Submit
-            </a>
+            </button>
           </div>
         </Popup>
 )}
 
 const SendingModal = () => {
   return (
-  <Popup modal closeOnDocumentClick	open={submitting && !photoUploaded && !documentsUploaded }>
+  <Popup modal closeOnDocumentClick	open={submitting && (!photoUploaded || !documentsUploaded  || !incidentFilesUploaded) }>
       <div className="modal">
             Submitting ...
 	   </div>
@@ -111,7 +112,14 @@ const SendingModal = () => {
 	  counter.count -= 1
 	  if(counter.count<1)
 		  setDocumentsUploaded(true)	  
-	  console.log(counter.count)
+	  console.log("document upload counter:"+counter.count)	 
+  }
+  
+  const decreaseIncidentFilesUploadingCount = (counter) =>{	  
+	  counter.count -= 1
+	  if(counter.count<1)
+		  setIncidentFilesUploaded(true)	  
+	  console.log("incident files upload counter:"+counter.count)
   }
   
   const handleFormSubmit = (form) => {
@@ -133,11 +141,18 @@ const SendingModal = () => {
 				//now add the photos
 								
 				uploadProfilePhoto(form.photo, data.victim.ID, ()=>setPhotoUploaded(true))
+				
 				let documentCount = form.documents?form.documents.length:0
 				if(documentCount===0)
 					setDocumentsUploaded(true)
 				else
 					handleFileObject(data.victim.ID, form.documents, "documents", decreaseDocumentUploadingCount, {"count": documentCount })
+				
+				let incidentFileCount = form.incident_files?form.incident_files.length:0
+				if(incidentFileCount===0)
+					setIncidentFilesUploaded(true)
+				else
+					handleFileObject(data.victim.Incident[0].ID, form.incident_files, "incidents", decreaseIncidentFilesUploadingCount, {"count": incidentFileCount })
 				//report created, want to redirect to success screens
 				setVictimID(data.victim.ID)				
 			} else {
@@ -148,8 +163,8 @@ const SendingModal = () => {
   }
 
   useEffect(() => {
-    document.title = 'Submit Testimony - Testimony Database';
-		nameRef.current.focus()
+    document.title = 'Submit Testimony - Testimony Database'
+		nameRef.current.focus()		
   }, [])
 
   return (
@@ -158,7 +173,7 @@ const SendingModal = () => {
         <div className="wrapper">
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <section>
-              <h1>Your information</h1>			  
+              <h1>Your information</h1>					
               <div className="row">
                 <label htmlFor="name">Name*</label>
                 <input

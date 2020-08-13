@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './ViewComponent.scss';
+import VictimMedia from '../components/VictimMedia';
 import langs from '../data/languages.js';
+import {authContentTypeHeaders} from '../actions/headers'
 
 const IncidentItem = (props) => {
 
 	const [incTranslations, setIncTranslations] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [medias, setMedias] = useState(null);
+	
 	
 	useEffect(() => {
 		
@@ -16,6 +20,22 @@ const IncidentItem = (props) => {
 				console.log(data)				
 				setIncTranslations(data.translations)
 				setIsLoaded(true);
+			} else if(data.status === 400) {
+				//params error
+			} else {
+				//something went wrong
+			}
+		})
+		.catch(err => console.log(err))
+		
+		fetch(process.env.REACT_APP_API_BASE + 'incident-medias?idincident=' + String(props.data.ID), {
+		  headers: authContentTypeHeaders()
+		})
+		.then(res => res.json())
+		.then(data => {
+			if(data.status === 200) {
+				//console.log(data)
+				setMedias(data.medias)
 			} else if(data.status === 400) {
 				//params error
 			} else {
@@ -53,6 +73,7 @@ const IncidentItem = (props) => {
 				<p> Discovery: </p> */}
 			</div>
 			{incTranslationDivs}
+			<VictimMedia data={medias}/>
 			
 		</div>	
 		)

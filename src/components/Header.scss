@@ -13,14 +13,13 @@
     margin: 0 auto;
     letter-spacing: 0.08rem;
   
-    .logo {
-      flex: 1 0 200px;
-      max-width: 200px;
+	
+	.logo {
+      flex: 1;
       color: $white-1;
+	  font-size: 0.8em;
       background: rgb(0, 0, 0); // fallback
       background: rgba(0, 0, 0, 0.55);
-      font-size: 1.2em;
-      line-height: 1.4;
       text-align: center;
       text-transform: uppercase;
       align-self: stretch;
@@ -33,6 +32,15 @@
         padding: 0;
       }
     }
+	@media all and (min-width: 50em) {  
+	.logo {
+	  flex: 1 0 200px;
+      max-width: 200px;
+       font-size: 1.2em;
+      line-height: 1.4;
+
+	  }
+	}
   }
 }
 
@@ -45,7 +53,7 @@
     justify-content: flex-end;;
 
     li {
-      font-size: 0.95em;
+      font-size: 0.6em;
 
       a {
         display: block;
@@ -62,5 +70,10 @@
         }
       }
     }
+	@media all and (min-width: 30em) {  
+	li {
+      font-size: 0.95em;
+	  }
+	}
   }
 }
