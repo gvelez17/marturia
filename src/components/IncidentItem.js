@@ -66,6 +66,7 @@ const IncidentItem = (props) => {
 		content =  (
 		<div>
 			<div>
+				<p> <b>Incident ID #{props.data.ID}</b> </p>
 				<p> Date of Incident: {props.data.date_of_incident}</p>
 				<p> Location: {props.data.location} </p>
 {/*				<p> Disappearance: {props.data.is_disappearance}</p>
@@ -74,7 +75,7 @@ const IncidentItem = (props) => {
 			</div>
 			{incTranslationDivs}
 			<VictimMedia data={medias}/>
-			
+			<hr/>
 		</div>	
 		)
 	}

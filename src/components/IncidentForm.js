@@ -414,13 +414,15 @@ const Incident = (props) => {
 		{
 			name:'ID',
 			selector:'ID',
-			sortable:true			
+			sortable:true,
+			width:'10%'
 		},
 		{
 			name:'Incident URL',
 			selector:'mediaurl',
 			sortable:true,
-			cell: row => <div className='mediaTableDiv'><a>{row.mediaurl}<div><img style={{height:50}} src={row.mediaurl}/></div></a></div>
+			wrap: true,
+			cell: row => <div className='mediaTableDiv'><a>{row.mediaurl}<div><img src={row.mediaurl.replace('.jpg','_thumb.jpg').replace('.JPG','_thumb.JPG').replace('.png','_thumb.png').replace('.PNG','_thumb.PNG').replace('.jpeg','_thumb.jpeg').replace('.JPEG','_thumb.JPEG').replace('.gif','_thumb.gif').replace('.GIF','_thumb.GIF')}/></div></a></div>
 		}
 	 ]
 	 
@@ -439,6 +441,7 @@ const Incident = (props) => {
 		let updateDoneMap = new Map()
 		selectedRows.forEach( sr => updateDoneMap.set(sr.ID,false))
 		selectedRows.forEach( sr => deleteMediaUrl(sr,updateDoneMap))
+		setShowDeletePopup(false)
 	}
     const clickBtnDelete = (e) => {
 		e.preventDefault()
@@ -543,7 +546,7 @@ const Incident = (props) => {
 										  id="incident_files"
 										  name="incident_files"
 										  type="file"
-										  accept="image/*,video/*"
+										  accept="image/jpg,image/jpeg,image/png,image/gif,video/mpeg,video/mp4,video/3gpp"
 										  onChange={(e) => sendIncidentFiles(e, item)}
 										  multiple
 										  ref={register({ required: false })}

@@ -80,7 +80,7 @@ const ViewVictim = (props) => {
 		.then(data => {
 			if(data.status === 200) {
 				//console.log(data)
-				setMedias(data.medias)
+				setMedias(data.medias)				
 			} else if(data.status === 400) {
 				//params error
 			} else {

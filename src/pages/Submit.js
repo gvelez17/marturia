@@ -452,7 +452,7 @@ const SendingModal = () => {
                   id="photo"
                   name="photo"
                   type="file"
-                  accept="image/*"
+                  accept="image/jpg,image/jpeg,image/png,image/gif"
 									ref={register({ required: true })}
                 />
 				 {errors.photo &&
@@ -466,7 +466,7 @@ const SendingModal = () => {
                   id="documents"
                   name="documents"
                   type="file"
-                  accept="image/*,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  accept="image/jpg,image/jpeg,image/png,image/gif,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,application/pdf"
                   multiple
 									ref={register({ required: false })}
                 />
