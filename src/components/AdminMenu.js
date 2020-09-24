@@ -8,17 +8,17 @@ import {tokenIsStillValid} from '../utils/utils';
 
 const routes = [
   {
-    path: "/createuser",
+    path: "/admin/1",
     sidebar: () => <div>Create User</div>,
     main: () => <CreateUser/>
   },
   {
-    path: "/viewallusers",
+    path: "/admin/2",
     sidebar: () => <div>View All Users</div>,
     main: () => <ViewAllUsers/>
   },
   {
-    path: "/setreportstatus",
+    path: "/admin/3",
     sidebar: () => <div>Manage Reports</div>,
     main: () => <SetReportStatus/>
   }
@@ -44,16 +44,16 @@ return(
           <ul>
 		  {localStorage.getItem('role')==='admin' &&
 			<li>
-              <Link to="/createuser">Create User</Link>
+              <Link to="/admin/1">Create User</Link>
             </li>
 		  }
 		 {localStorage.getItem('role')==='admin' &&
             <li>
-              <Link to="/viewallusers">View All Users</Link>
+              <Link to="/admin/2">View All Users</Link>
             </li>           
 		 } 
 			<li>
-              <Link to="/setreportstatus">Manage Reports</Link>
+              <Link to="/admin/3">Manage Reports</Link>
             </li>
 		  <li>
 			<Link onClick={logout} to="">Logout</Link>
