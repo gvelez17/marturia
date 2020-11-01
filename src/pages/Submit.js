@@ -308,7 +308,7 @@ const SendingModal = () => {
               </div>
 
                <div className="row">
-                <label htmlFor="country">Country of Origin*</label>
+                <label htmlFor="country">Country*</label>
                 <select defaultValue="none"
 												id="country"
 												name="country"
@@ -323,7 +323,7 @@ const SendingModal = () => {
                 ))}
               </select>
 							{errors.country &&
-								<p className="error">Country of Origin is required</p>}
+								<p className="error">Country is required</p>}
               </div>
 			   <div className="row">
 			  				<label htmlFor="language">Language*</label>
